@@ -326,3 +326,55 @@ def store_admin_view(request):
         'theme_choices': THEME_SAMPLES,
     }
     return render(request, 'shop/store_admin.html', context)
+
+
+@require_GET
+def quick_search_api(request):
+    """
+    Live autocomplete search API for WoodMart-style header search bar.
+    Returns matching products with title, category, price, thumbnail, and demo-aware URL.
+    """
+    q = request.GET.get('q', '').strip()
+    category_slug = request.GET.get('category', '').strip()
+    
+    if not q and not category_slug:
+        return JsonResponse({'results': [], 'count': 0})
+        
+    products = Product.objects.filter(in_stock=True)
+    if category_slug:
+        products = products.filter(category__slug=category_slug)
+        
+    if q:
+        products = products.filter(
+            Q(title__icontains=q) |
+            Q(short_description__icontains=q) |
+            Q(description__icontains=q) |
+            Q(sku__icontains=q) |
+            Q(theme_niche__icontains=q)
+        )
+        
+    results = []
+    active_theme = request.session.get('active_theme')
+    
+    for p in products[:10]:
+        if active_theme:
+            product_url = f"/demo/{active_theme}/product/{p.slug}/"
+        else:
+            product_url = f"/product/{p.slug}/"
+
+        results.append({
+            'id': p.id,
+            'title': p.title,
+            'slug': p.slug,
+            'url': product_url,
+            'category': p.category.name,
+            'category_slug': p.category.slug,
+            'price': str(p.base_price),
+            'image_url': p.image_url,
+            'rating': str(p.rating),
+            'theme_niche': p.theme_niche,
+            'in_stock': p.in_stock,
+        })
+        
+    return JsonResponse({'results': results, 'count': len(results)})
+

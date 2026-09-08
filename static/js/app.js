@@ -7,6 +7,8 @@ document.addEventListener('DOMContentLoaded', () => {
   initVariantSelectors();
   initThemeSwitcher();
   initCatalogFilters();
+  initWoodMartSearch();
+  initMegaMenus();
 });
 
 // ==========================================
@@ -458,3 +460,114 @@ function initCatalogFilters() {
     sortSelect.addEventListener('change', applyFilters);
   }
 }
+
+// ==========================================
+// WOODMART LIVE SEARCH & MEGA MENU CONTROLLER
+// ==========================================
+function initWoodMartSearch() {
+  setupLiveSearch('woodmartSearchInput', 'woodmartSearchResults', 'headerCategorySelect', 'woodmartClearBtn');
+  setupLiveSearch('homeCatalogSearchInput', 'homeLiveSearchResults', 'homeSearchCategory', null);
+
+  function setupLiveSearch(inputId, dropdownId, catSelectId, clearBtnId) {
+    const input = document.getElementById(inputId);
+    const dropdown = document.getElementById(dropdownId);
+    const catSelect = catSelectId ? document.getElementById(catSelectId) : null;
+    const clearBtn = clearBtnId ? document.getElementById(clearBtnId) : null;
+
+    if (!input || !dropdown) return;
+
+    let debounceTimer;
+
+    input.addEventListener('input', () => {
+      const q = input.value.trim();
+      if (clearBtn) {
+        clearBtn.style.display = q ? 'block' : 'none';
+      }
+
+      clearTimeout(debounceTimer);
+      if (q.length < 2) {
+        dropdown.classList.remove('active');
+        dropdown.innerHTML = '';
+        return;
+      }
+
+      debounceTimer = setTimeout(async () => {
+        const cat = catSelect ? catSelect.value : '';
+        try {
+          const res = await fetch(`/api/search/?q=${encodeURIComponent(q)}&category=${encodeURIComponent(cat)}`);
+          const data = await res.json();
+
+          if (data.results && data.results.length > 0) {
+            let html = '';
+            data.results.forEach(item => {
+              html += `
+                <a href="${item.url}" class="search-item-row">
+                  <img src="${item.image_url}" alt="${item.title}" class="search-item-thumb">
+                  <div class="search-item-info">
+                    <span class="search-item-cat">${item.category}</span>
+                    <h4 class="search-item-title">${item.title}</h4>
+                  </div>
+                  <span class="search-item-price">$${item.price}</span>
+                </a>
+              `;
+            });
+            html += `<a href="/catalog/?q=${encodeURIComponent(q)}" class="search-view-all-footer">View all ${data.count} results for "${q}" →</a>`;
+            dropdown.innerHTML = html;
+            dropdown.classList.add('active');
+          } else {
+            dropdown.innerHTML = `
+              <div style="padding: 16px; text-align: center; color: var(--store-text-muted); font-size: 13px;">
+                No matching needles or threads found for "<strong>${q}</strong>".
+              </div>
+            `;
+            dropdown.classList.add('active');
+          }
+        } catch (err) {
+          console.error("Live search failed:", err);
+        }
+      }, 250);
+    });
+
+    if (clearBtn) {
+      clearBtn.addEventListener('click', () => {
+        input.value = '';
+        clearBtn.style.display = 'none';
+        dropdown.classList.remove('active');
+        input.focus();
+      });
+    }
+
+    // Close dropdown on click outside
+    document.addEventListener('click', (e) => {
+      if (!input.contains(e.target) && !dropdown.contains(e.target)) {
+        dropdown.classList.remove('active');
+      }
+    });
+
+    // Close on Escape
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') {
+        dropdown.classList.remove('active');
+      }
+    });
+  }
+}
+
+function initMegaMenus() {
+  const browseBtn = document.getElementById('browseCategoriesBtn');
+  const megaDropdown = document.getElementById('browseCategoriesDropdown');
+
+  if (browseBtn && megaDropdown) {
+    browseBtn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      megaDropdown.classList.toggle('active');
+    });
+
+    document.addEventListener('click', (e) => {
+      if (!browseBtn.contains(e.target) && !megaDropdown.contains(e.target)) {
+        megaDropdown.classList.remove('active');
+      }
+    });
+  }
+}
+

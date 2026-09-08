@@ -156,21 +156,84 @@
 </section>
 
 <!-- ==========================================================================
-     CATEGORY QUICK BROWSE WITH CLEAN CANONICAL URLS
+     WOODMART-STYLE MEGA CATALOG SEARCH & DIRECTORY CONSOLE
      ========================================================================== -->
-<div class="container category-row">
-  <div class="category-scroll">
-    {% for cat in categories|slice:":5" %}
-      <a href="{% if is_demo_mode %}{% url 'demo_catalog_category' theme_id=active_theme category_slug=cat.slug %}{% else %}{% url 'catalog_category' category_slug=cat.slug %}{% endif %}" class="category-chip-card">
-        <div class="category-chip-icon">{{ cat.icon }}</div>
-        <div class="category-chip-info">
-          <h4>{{ cat.name }}</h4>
-          <span>{{ cat.products.count }} Products</span>
-        </div>
-      </a>
-    {% endfor %}
+<section class="container home-catalog-search-section">
+  <div class="home-search-box-card">
+    <div class="home-search-header">
+      <span class="home-search-badge">⚡ Instant Haberdashery Search</span>
+      <h2>Search & Explore the Full Catalog</h2>
+      <p>Browse 16 specialized merchant collections, micro-inspected needles, pure silk floss, and high-tensile cords directly from the storefront</p>
+    </div>
+
+    <!-- Wide Catalog Search Bar with Category Filter & Live Suggestions -->
+    <form action="{% if is_demo_mode %}{% url 'demo_catalog' theme_id=active_theme %}{% else %}{% url 'catalog' %}{% endif %}" method="GET" class="home-main-search-form" id="homeMainSearchForm">
+      <div class="home-search-cat-picker">
+        <span class="picker-icon">📂</span>
+        <select name="category" class="home-search-select" id="homeSearchCategory">
+          <option value="">All 16 Collections</option>
+          {% for cat in categories %}
+            <option value="{{ cat.slug }}">{{ cat.name }} ({{ cat.products.count }})</option>
+          {% endfor %}
+        </select>
+      </div>
+
+      <div class="home-search-input-box">
+        <input 
+          type="text" 
+          name="q" 
+          class="home-search-input" 
+          id="homeCatalogSearchInput" 
+          placeholder="Search for silk floss, titanium needles, sashiko thread, awls, gauges, SKU..." 
+          autocomplete="off"
+        >
+        <div class="home-search-live-dropdown" id="homeLiveSearchResults"></div>
+      </div>
+
+      <button type="submit" class="home-search-btn">
+        <span>SEARCH CATALOG</span>
+        <span>🔍</span>
+      </button>
+    </form>
+
+    <!-- Popular Search Pills / Quick Tags -->
+    <div class="home-search-tags">
+      <span class="tags-label">Popular Searches:</span>
+      <a href="{% if is_demo_mode %}{% url 'demo_catalog' theme_id=active_theme %}{% else %}{% url 'catalog' %}{% endif %}?q=silk" class="search-tag-chip">🧵 Pure Silk Floss</a>
+      <a href="{% if is_demo_mode %}{% url 'demo_catalog' theme_id=active_theme %}{% else %}{% url 'catalog' %}{% endif %}?q=sashiko" class="search-tag-chip">🪡 Japanese Sashiko</a>
+      <a href="{% if is_demo_mode %}{% url 'demo_catalog' theme_id=active_theme %}{% else %}{% url 'catalog' %}{% endif %}?q=titanium" class="search-tag-chip">⚙️ Titanium DBx1</a>
+      <a href="{% if is_demo_mode %}{% url 'demo_catalog' theme_id=active_theme %}{% else %}{% url 'catalog' %}{% endif %}?q=goldwork" class="search-tag-chip">✨ Real Goldwork Purl</a>
+      <a href="{% if is_demo_mode %}{% url 'demo_catalog' theme_id=active_theme %}{% else %}{% url 'catalog' %}{% endif %}?q=kevlar" class="search-tag-chip">🛡️ Kevlar 92 Mil-Spec</a>
+      <a href="{% if is_demo_mode %}{% url 'demo_catalog' theme_id=active_theme %}{% else %}{% url 'catalog' %}{% endif %}?q=punch" class="search-tag-chip">🧶 Oxford Punch Needles</a>
+      <a href="{% if is_demo_mode %}{% url 'demo_catalog' theme_id=active_theme %}{% else %}{% url 'catalog' %}{% endif %}?q=amigurumi" class="search-tag-chip">🌸 Milk Cotton Fluff</a>
+    </div>
   </div>
-</div>
+
+  <!-- Big Directory of All 16 Collections -->
+  <div class="home-mega-categories-wrap">
+    <div class="mega-categories-header">
+      <div>
+        <h3 class="mega-cat-heading">All 16 Haberdashery Departments</h3>
+        <p class="mega-cat-sub">Select any niche department to jump directly into filtered artisan inventory</p>
+      </div>
+      <a href="{% if is_demo_mode %}{% url 'demo_catalog' theme_id=active_theme %}{% else %}{% url 'catalog' %}{% endif %}" class="view-all-cats-link">View Complete Catalog Directory →</a>
+    </div>
+
+    <div class="home-mega-categories-grid">
+      {% for cat in categories %}
+        <a href="{% if is_demo_mode %}{% url 'demo_catalog_category' theme_id=active_theme category_slug=cat.slug %}{% else %}{% url 'catalog_category' category_slug=cat.slug %}{% endif %}" class="home-mega-cat-card">
+          <div class="mega-cat-icon-wrap">{{ cat.icon }}</div>
+          <div class="mega-cat-content">
+            <h4>{{ cat.name }}</h4>
+            <p>{{ cat.description|truncatewords:6 }}</p>
+            <span class="mega-cat-count">{{ cat.products.count }} specialized items</span>
+          </div>
+          <span class="mega-cat-arrow">→</span>
+        </a>
+      {% endfor %}
+    </div>
+  </div>
+</section>
 
 <!-- ==========================================================================
      FEATURED PRODUCTS SHOWCASE

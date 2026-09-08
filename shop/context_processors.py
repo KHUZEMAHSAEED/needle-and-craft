@@ -1,4 +1,4 @@
-from .models import StoreConfig
+from .models import StoreConfig, Category
 from .cart import Cart
 
 
@@ -11,6 +11,7 @@ THEME_SAMPLES = [
         'niche': 'Silk Floss, Goldwork, Tambour Needles',
         'tag': 'Luxury Dark Luxe',
         'layout_style': 'boutique',
+        'header_style': 'boutique',
         'primary_color': '#D4AF37',
         'accent_color': '#E5C158',
         'bg_preview': '#0D0F12',
@@ -24,6 +25,7 @@ THEME_SAMPLES = [
         'niche': 'Indigo Heavy Thread, Palm Thimbles',
         'tag': 'Zen Organic Mending',
         'layout_style': 'artisanal',
+        'header_style': 'artisanal',
         'primary_color': '#1B3B6F',
         'accent_color': '#D97757',
         'bg_preview': '#F7F4EE',
@@ -37,6 +39,7 @@ THEME_SAMPLES = [
         'niche': 'Titanium Needles, 50wt Cotton, Rotary Cutters',
         'tag': 'Vibrant Maker Studio',
         'layout_style': 'studio',
+        'header_style': 'woodmart_mega',
         'primary_color': '#FF6B6B',
         'accent_color': '#2EC4B6',
         'bg_preview': '#FFFFFF',
@@ -50,6 +53,7 @@ THEME_SAMPLES = [
         'niche': 'Waxed Harness Twine, Cobbler Awls',
         'tag': 'Rugged Industrial',
         'layout_style': 'technical',
+        'header_style': 'technical',
         'primary_color': '#8B4513',
         'accent_color': '#C69214',
         'bg_preview': '#22252A',
@@ -63,6 +67,7 @@ THEME_SAMPLES = [
         'niche': 'Madder & Indigo Dyed Silks, Linen Thread',
         'tag': 'Earthy Natural Eco',
         'layout_style': 'artisanal',
+        'header_style': 'artisanal',
         'primary_color': '#4F772D',
         'accent_color': '#BC4749',
         'bg_preview': '#FAF8F5',
@@ -76,6 +81,7 @@ THEME_SAMPLES = [
         'niche': 'Organic Crewel Wool, Tapestry Needles',
         'tag': 'Clean Scandi Hygge',
         'layout_style': 'studio',
+        'header_style': 'woodmart_mega',
         'primary_color': '#2B4C7E',
         'accent_color': '#D64550',
         'bg_preview': '#F0F4F8',
@@ -89,6 +95,7 @@ THEME_SAMPLES = [
         'niche': 'Filigree Needle Cases, Tatting Shuttles',
         'tag': 'Vintage Antique Etching',
         'layout_style': 'boutique',
+        'header_style': 'boutique',
         'primary_color': '#581825',
         'accent_color': '#B8860B',
         'bg_preview': '#F4ECD8',
@@ -102,6 +109,7 @@ THEME_SAMPLES = [
         'niche': 'Punch Needles, Chunky Tufting Yarn',
         'tag': 'Cyber Neo-Brutalist',
         'layout_style': 'studio',
+        'header_style': 'woodmart_mega',
         'primary_color': '#B4F82C',
         'accent_color': '#8338EC',
         'bg_preview': '#12131C',
@@ -115,6 +123,7 @@ THEME_SAMPLES = [
         'niche': 'Groz-Beckert DBx1, Kevlar & Bonded Nylon',
         'tag': 'High-Tech Technical',
         'layout_style': 'technical',
+        'header_style': 'technical',
         'primary_color': '#06B6D4',
         'accent_color': '#3B82F6',
         'bg_preview': '#F8FAFC',
@@ -128,6 +137,7 @@ THEME_SAMPLES = [
         'niche': 'Unbleached Macramé Cord, Weaving Shuttles',
         'tag': 'Bohemian Warm Craft',
         'layout_style': 'artisanal',
+        'header_style': 'artisanal',
         'primary_color': '#D9822B',
         'accent_color': '#B3545A',
         'bg_preview': '#FCF8F5',
@@ -141,6 +151,7 @@ THEME_SAMPLES = [
         'niche': 'Real Gilt Passing Thread, Bullion Wire',
         'tag': 'Sacred Gilded Heraldry',
         'layout_style': 'boutique',
+        'header_style': 'boutique',
         'primary_color': '#C5A059',
         'accent_color': '#8B1E3F',
         'bg_preview': '#180B22',
@@ -154,6 +165,7 @@ THEME_SAMPLES = [
         'niche': 'Rough Jute, Organic Hemp, Amber Beads',
         'tag': 'Warm Nostalgic Groovy',
         'layout_style': 'artisanal',
+        'header_style': 'artisanal',
         'primary_color': '#E1AD01',
         'accent_color': '#B84A39',
         'bg_preview': '#FBF6EE',
@@ -167,6 +179,7 @@ THEME_SAMPLES = [
         'niche': 'Bonded Kevlar 92, Heavy Webbing Needles',
         'tag': 'Mil-Spec Extreme Tensile',
         'layout_style': 'technical',
+        'header_style': 'technical',
         'primary_color': '#9A7B4F',
         'accent_color': '#4B5320',
         'bg_preview': '#151719',
@@ -180,6 +193,7 @@ THEME_SAMPLES = [
         'niche': 'Ergonomic Pastel Hooks, Milk Cotton Fluff',
         'tag': 'Playful Pastel Cute',
         'layout_style': 'studio',
+        'header_style': 'woodmart_mega',
         'primary_color': '#FF8FA3',
         'accent_color': '#70D6FF',
         'bg_preview': '#FFF5F7',
@@ -193,6 +207,7 @@ THEME_SAMPLES = [
         'niche': 'Heavy Boning Needles, Waxed Lacing Cord',
         'tag': 'Dark Romance Velvet',
         'layout_style': 'boutique',
+        'header_style': 'boutique',
         'primary_color': '#9B1B30',
         'accent_color': '#4A0E17',
         'bg_preview': '#0F080C',
@@ -206,6 +221,7 @@ THEME_SAMPLES = [
         'niche': 'Filigree Shuttles, Peacock Green Silks',
         'tag': 'Organic Whiplash Filigree',
         'layout_style': 'artisanal',
+        'header_style': 'artisanal',
         'primary_color': '#7FA99B',
         'accent_color': '#DFB2B4',
         'bg_preview': '#F6FAF8',
@@ -247,19 +263,30 @@ def shop_context(request):
 
     current_theme_info = THEME_MAP.get(active_theme_key, THEME_SAMPLES[0])
     layout_style = current_theme_info.get('layout_style', 'boutique')
+    header_style = current_theme_info.get('header_style', 'woodmart_mega')
     cart = Cart(request)
 
     # Clean URL prefix for demo mode
     demo_prefix = f"/demo/{active_theme_key}" if is_demo_mode else ""
+    
+    # All Categories for the mega-menu and header category dropdown
+    try:
+        all_categories = Category.objects.all().prefetch_related('products')
+    except Exception:
+        all_categories = []
 
     return {
         'store_config': config,
         'active_theme': active_theme_key,
         'current_theme': current_theme_info,
         'layout_style': layout_style,
+        'header_style': header_style,
         'theme_samples': THEME_SAMPLES,
         'is_demo_mode': is_demo_mode,
         'demo_prefix': demo_prefix,
         'cart': cart,
         'cart_count': cart.total_count,
+        'cart_subtotal': cart.get_subtotal(),
+        'all_categories': all_categories,
     }
+

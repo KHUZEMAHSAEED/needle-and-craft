@@ -215,3 +215,46 @@ class ShopEcommerceTests(TestCase):
         config = StoreConfig.get_solo()
         self.assertEqual(config.store_name, 'Kyoto Sashiko Guild')
         self.assertEqual(config.active_theme, 'sashiko')
+
+    def test_quick_search_api(self):
+        """Verify the WoodMart-style live search autocomplete API endpoint."""
+        # 1. Search with query matching product title
+        resp = self.client.get(reverse('quick_search_api') + '?q=Mulberry')
+        self.assertEqual(resp.status_code, 200)
+        data = resp.json()
+        self.assertGreaterEqual(data['count'], 1)
+        self.assertEqual(data['results'][0]['title'], self.product.title)
+
+        # 2. Search with category filter
+        resp_cat = self.client.get(reverse('quick_search_api') + f'?q=Mulberry&category={self.category.slug}')
+        self.assertEqual(resp_cat.status_code, 200)
+        data_cat = resp_cat.json()
+        self.assertGreaterEqual(data_cat['count'], 1)
+
+        # 3. Search with non-matching query
+        resp_empty = self.client.get(reverse('quick_search_api') + '?q=NonExistentZ99')
+        self.assertEqual(resp_empty.status_code, 200)
+        self.assertEqual(resp_empty.json()['count'], 0)
+
+    def test_woodmart_headers_and_mega_menus(self):
+        """Verify that WoodMart mega headers and home page catalog search render correctly."""
+        # Theme 3: Modern Quilter uses header_style 'woodmart_mega'
+        resp_quilter = self.client.get(reverse('demo_home', kwargs={'theme_id': 'quilter'}))
+        self.assertEqual(resp_quilter.status_code, 200)
+        self.assertContains(resp_quilter, "header-style-mega")
+        self.assertContains(resp_quilter, "BROWSE CATEGORIES")
+        self.assertContains(resp_quilter, "woodmart-search-form")
+        self.assertContains(resp_quilter, "home-catalog-search-section")
+
+        # Theme 1: Atelier Couture uses header_style 'boutique'
+        resp_couture = self.client.get(reverse('demo_home', kwargs={'theme_id': 'couture'}))
+        self.assertEqual(resp_couture.status_code, 200)
+        self.assertContains(resp_couture, "header-style-boutique")
+        self.assertContains(resp_couture, "HAUTE COLLECTIONS")
+
+        # Theme 4: Heritage Leathercraft uses header_style 'technical'
+        resp_leather = self.client.get(reverse('demo_home', kwargs={'theme_id': 'leathercraft'}))
+        self.assertEqual(resp_leather.status_code, 200)
+        self.assertContains(resp_leather, "header-style-technical")
+        self.assertContains(resp_leather, "SPEC_CATALOG_INDEX")
+

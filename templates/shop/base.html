@@ -52,40 +52,410 @@
     </div>
   {% endif %}
 
-  <!-- Main Navigation -->
-  <header class="navbar">
-    <div class="container navbar-inner">
-      <a href="{% if is_demo_mode %}{% url 'demo_home' theme_id=active_theme %}{% else %}{% url 'home' %}{% endif %}" class="brand-logo">
-        <div class="brand-symbol">🪡</div>
-        <div class="brand-info">
-          <h2>{{ store_config.store_name }}</h2>
-          <p>{{ current_theme.tag }} • {{ store_config.tagline }}</p>
+  <!-- ==========================================================================
+       WOODMART-INSPIRED MULTI-TIER HEADERS WITH BIG SEARCH & MEGA MENUS
+       ========================================================================== -->
+
+  {% if header_style == 'woodmart_mega' %}
+    <!-- ====================================================================
+         HEADER STYLE 1: WOODMART MEGA MARKETPLACE / SUPERSTORE HEADER
+         (Used in Modern Quilter, Nordic Wool, Neon Tuft, Kawaii Amigurumi)
+         ==================================================================== -->
+    <header class="header-woodmart-wrap header-style-mega">
+      <!-- Top Utility Bar -->
+      <div class="woodmart-topbar">
+        <div class="container woodmart-topbar-inner">
+          <div class="topbar-left">
+            <span>🚚 <strong>Free Express Worldwide Shipping</strong> on orders over $50</span>
+            <span class="topbar-sep">•</span>
+            <span>📞 Helpline: <strong>+1 (800) 456-7890</strong></span>
+          </div>
+          <div class="topbar-right">
+            <span class="topbar-promo">⚡ Flash Offer: Use code <strong>NEEDLE15</strong> for 15% OFF</span>
+            <span class="topbar-sep">•</span>
+            <span class="topbar-link">USD ($) ▾</span>
+            <span class="topbar-link">English ▾</span>
+            <a href="{% url 'store_admin' %}" class="topbar-link">Merchant Portal</a>
+          </div>
         </div>
-      </a>
-
-      <nav>
-        <ul class="nav-links">
-          <li><a href="{% if is_demo_mode %}{% url 'demo_home' theme_id=active_theme %}{% else %}{% url 'home' %}{% endif %}" class="nav-link">Home</a></li>
-          <li><a href="{% if is_demo_mode %}{% url 'demo_catalog' theme_id=active_theme %}{% else %}{% url 'catalog' %}{% endif %}" class="nav-link">Full Catalog</a></li>
-          <li><a href="{% if is_demo_mode %}{% url 'demo_catalog_category' theme_id=active_theme category_slug='couture-silk' %}{% else %}{% url 'catalog_category' category_slug='couture-silk' %}{% endif %}" class="nav-link">Silks</a></li>
-          <li><a href="{% if is_demo_mode %}{% url 'demo_catalog_category' theme_id=active_theme category_slug='sashiko-mending' %}{% else %}{% url 'catalog_category' category_slug='sashiko-mending' %}{% endif %}" class="nav-link">Sashiko</a></li>
-          <li><a href="{% if is_demo_mode %}{% url 'demo_catalog_category' theme_id=active_theme category_slug='quilting-notions' %}{% else %}{% url 'catalog_category' category_slug='quilting-notions' %}{% endif %}" class="nav-link">Needles</a></li>
-        </ul>
-      </nav>
-
-      <div class="nav-actions">
-        <form action="{% url 'catalog' %}" method="GET" class="search-mini-form">
-          <span class="search-mini-icon">🔍</span>
-          <input type="text" name="q" placeholder="Search threads, needles..." class="search-mini-input" value="{{ request.GET.q }}">
-        </form>
-
-        <button type="button" class="cart-toggle-btn" data-cart-open>
-          <span>Bag</span>
-          <span class="cart-count-badge">{{ cart_count }}</span>
-        </button>
       </div>
-    </div>
-  </header>
+
+      <!-- Main Header Bar (Logo, Big Search Bar, Actions) -->
+      <div class="woodmart-main-header">
+        <div class="container woodmart-main-inner">
+          <!-- Brand Logo -->
+          <a href="{% if is_demo_mode %}{% url 'demo_home' theme_id=active_theme %}{% else %}{% url 'home' %}{% endif %}" class="woodmart-brand-logo">
+            <div class="brand-symbol">🪡</div>
+            <div class="brand-info">
+              <h2>{{ store_config.store_name }}</h2>
+              <p>{{ current_theme.tag }} • {{ store_config.tagline }}</p>
+            </div>
+          </a>
+
+          <!-- BIG WOODMART SEARCH BAR WITH CATEGORY SELECTOR & LIVE AUTOCOMPLETE -->
+          <div class="woodmart-search-wrapper">
+            <form action="{% if is_demo_mode %}{% url 'demo_catalog' theme_id=active_theme %}{% else %}{% url 'catalog' %}{% endif %}" method="GET" class="woodmart-search-form" id="woodmartSearchForm">
+              <div class="woodmart-cat-dropdown-wrap">
+                <select name="category" class="woodmart-cat-select" id="headerCategorySelect">
+                  <option value="">All Categories</option>
+                  {% for cat in all_categories %}
+                    <option value="{{ cat.slug }}" {% if selected_category and selected_category.slug == cat.slug %}selected{% endif %}>{{ cat.name }}</option>
+                  {% endfor %}
+                </select>
+              </div>
+              <div class="woodmart-search-input-wrap">
+                <input 
+                  type="text" 
+                  name="q" 
+                  class="woodmart-search-input" 
+                  id="woodmartSearchInput" 
+                  placeholder="Search 50+ silk threads, titanium needles, spools, notions, SKU..." 
+                  value="{{ request.GET.q|default:'' }}" 
+                  autocomplete="off"
+                >
+                <button type="button" class="woodmart-clear-btn" id="woodmartClearBtn" style="display: none;">✕</button>
+              </div>
+              <button type="submit" class="woodmart-search-submit">
+                <span>Search</span>
+                <span class="search-icon">🔍</span>
+              </button>
+            </form>
+            <!-- Live Autocomplete Quick Search Popup -->
+            <div class="woodmart-search-results-dropdown" id="woodmartSearchResults"></div>
+          </div>
+
+          <!-- Header Right Actions: Account, Wishlist, Cart with Total -->
+          <div class="woodmart-header-actions">
+            <a href="{% url 'store_admin' %}" class="woodmart-action-item" title="Merchant Dashboard">
+              <span class="action-icon">👤</span>
+              <span class="action-text">
+                <span class="action-sub">Manage</span>
+                <span class="action-main">Account</span>
+              </span>
+            </a>
+
+            <div class="woodmart-action-item wishlist-item" title="Saved Notions">
+              <span class="action-icon">
+                🤍
+                <span class="action-badge">0</span>
+              </span>
+              <span class="action-text">
+                <span class="action-sub">Saved</span>
+                <span class="action-main">Wishlist</span>
+              </span>
+            </div>
+
+            <button type="button" class="woodmart-cart-btn" data-cart-open title="Open Shopping Bag">
+              <span class="cart-icon-wrap">
+                🛍️
+                <span class="cart-count-badge">{{ cart_count }}</span>
+              </span>
+              <span class="cart-text-wrap">
+                <span class="cart-sub">Shopping Bag</span>
+                <span class="cart-amount">${{ cart_subtotal|floatformat:2 }}</span>
+              </span>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Bottom Navigation Bar with "BROWSE CATEGORIES" Mega Menu -->
+      <div class="woodmart-nav-bar">
+        <div class="container woodmart-nav-inner">
+          <!-- "BROWSE CATEGORIES" Mega Menu Button & Flyout -->
+          <div class="woodmart-categories-menu-wrap">
+            <button type="button" class="woodmart-categories-btn" id="browseCategoriesBtn">
+              <span class="hamburger-icon">☰</span>
+              <span>BROWSE CATEGORIES</span>
+              <span class="arrow-icon">▾</span>
+            </button>
+
+            <!-- BIG 4-COLUMN MEGA MENU -->
+            <div class="woodmart-mega-menu-dropdown" id="browseCategoriesDropdown">
+              <div class="mega-menu-grid">
+                <!-- Column 1: Fine Embroidery & Silks -->
+                <div class="mega-menu-col">
+                  <h4 class="mega-col-title">🪡 Fine Silks & Embroidery</h4>
+                  <ul class="mega-links-list">
+                    <li><a href="{% if is_demo_mode %}{% url 'demo_catalog_category' theme_id=active_theme category_slug='couture-silk' %}{% else %}{% url 'catalog_category' category_slug='couture-silk' %}{% endif %}">Couture Silk Floss (12-ply)</a></li>
+                    <li><a href="{% if is_demo_mode %}{% url 'demo_catalog_category' theme_id=active_theme category_slug='goldwork-ecclesiastical-threads' %}{% else %}{% url 'catalog_category' category_slug='goldwork-ecclesiastical-threads' %}{% endif %}">Real Gilt Goldwork Purl</a></li>
+                    <li><a href="{% if is_demo_mode %}{% url 'demo_catalog_category' theme_id=active_theme category_slug='art-nouveau-tatting-lace' %}{% else %}{% url 'catalog_category' category_slug='art-nouveau-tatting-lace' %}{% endif %}">Filigree Tatting Shuttles & Lace</a></li>
+                    <li><a href="{% if is_demo_mode %}{% url 'demo_catalog_category' theme_id=active_theme category_slug='victorian-lace' %}{% else %}{% url 'catalog_category' category_slug='victorian-lace' %}{% endif %}">Antique Brass Needle Vaults</a></li>
+                    <li><a href="{% if is_demo_mode %}{% url 'demo_catalog' theme_id=active_theme %}{% else %}{% url 'catalog' %}{% endif %}?niche=silk" class="mega-view-all">View All Silk Collections →</a></li>
+                  </ul>
+                </div>
+
+                <!-- Column 2: Visible Mending & Heavy Craft -->
+                <div class="mega-menu-col">
+                  <h4 class="mega-col-title">🧵 Mending & Heavy Craft</h4>
+                  <ul class="mega-links-list">
+                    <li><a href="{% if is_demo_mode %}{% url 'demo_catalog_category' theme_id=active_theme category_slug='sashiko-mending' %}{% else %}{% url 'catalog_category' category_slug='sashiko-mending' %}{% endif %}">Japanese Sashiko Thread (100m)</a></li>
+                    <li><a href="{% if is_demo_mode %}{% url 'demo_catalog_category' theme_id=active_theme category_slug='leather-awls' %}{% else %}{% url 'catalog_category' category_slug='leather-awls' %}{% endif %}">Heavy Harness Twine & Awls</a></li>
+                    <li><a href="{% if is_demo_mode %}{% url 'demo_catalog_category' theme_id=active_theme category_slug='punch-tufting' %}{% else %}{% url 'catalog_category' category_slug='punch-tufting' %}{% endif %}">Oxford Ergonomic Punch Needles</a></li>
+                    <li><a href="{% if is_demo_mode %}{% url 'demo_catalog_category' theme_id=active_theme category_slug='retro-70s-macrame-cord' %}{% else %}{% url 'catalog_category' category_slug='retro-70s-macrame-cord' %}{% endif %}">Chunky 70s Macramé & Jute</a></li>
+                    <li><a href="{% if is_demo_mode %}{% url 'demo_catalog' theme_id=active_theme %}{% else %}{% url 'catalog' %}{% endif %}?niche=mending" class="mega-view-all">View All Mending Notions →</a></li>
+                  </ul>
+                </div>
+
+                <!-- Column 3: Machine & Technical -->
+                <div class="mega-menu-col">
+                  <h4 class="mega-col-title">⚙️ Machine & Technical</h4>
+                  <ul class="mega-links-list">
+                    <li><a href="{% if is_demo_mode %}{% url 'demo_catalog_category' theme_id=active_theme category_slug='quilting-notions' %}{% else %}{% url 'catalog_category' category_slug='quilting-notions' %}{% endif %}">Titanium Machine Needles (5-Pk)</a></li>
+                    <li><a href="{% if is_demo_mode %}{% url 'demo_catalog_category' theme_id=active_theme category_slug='industrial-needles' %}{% else %}{% url 'catalog_category' category_slug='industrial-needles' %}{% endif %}">Groz-Beckert DBx1 Industrial</a></li>
+                    <li><a href="{% if is_demo_mode %}{% url 'demo_catalog_category' theme_id=active_theme category_slug='heavy-rigging-mil-spec-thread' %}{% else %}{% url 'catalog_category' category_slug='heavy-rigging-mil-spec-thread' %}{% endif %}">Bonded Kevlar 92 Mil-Spec Cord</a></li>
+                    <li><a href="{% if is_demo_mode %}{% url 'demo_catalog_category' theme_id=active_theme category_slug='quilting-notions' %}{% else %}{% url 'catalog_category' category_slug='quilting-notions' %}{% endif %}">50wt Egyptian Long-Staple Cotton</a></li>
+                    <li><a href="{% if is_demo_mode %}{% url 'demo_catalog' theme_id=active_theme %}{% else %}{% url 'catalog' %}{% endif %}?niche=machine" class="mega-view-all">View All Technical Hardware →</a></li>
+                  </ul>
+                </div>
+
+                <!-- Column 4: Featured Promo Banner Card -->
+                <div class="mega-menu-col mega-banner-col">
+                  <div class="mega-promo-card">
+                    <span class="promo-pill">SPRING SPECIAL</span>
+                    <h3>15% Off All Floss & Needles</h3>
+                    <p>Use code <strong>NEEDLE15</strong> at checkout for orders over $40.</p>
+                    <a href="{% if is_demo_mode %}{% url 'demo_catalog' theme_id=active_theme %}{% else %}{% url 'catalog' %}{% endif %}" class="mega-promo-btn">
+                      Shop Featured Deals →
+                    </a>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Main Navigation Links with Badges -->
+          <nav class="woodmart-horizontal-nav">
+            <ul class="woodmart-nav-links">
+              <li><a href="{% if is_demo_mode %}{% url 'demo_home' theme_id=active_theme %}{% else %}{% url 'home' %}{% endif %}" class="nav-item-link">Home</a></li>
+              <li><a href="{% if is_demo_mode %}{% url 'demo_catalog' theme_id=active_theme %}{% else %}{% url 'catalog' %}{% endif %}" class="nav-item-link">Full Catalog</a></li>
+              <li>
+                <a href="{% if is_demo_mode %}{% url 'demo_catalog_category' theme_id=active_theme category_slug='quilting-notions' %}{% else %}{% url 'catalog_category' category_slug='quilting-notions' %}{% endif %}" class="nav-item-link">
+                  Machine Needles
+                  <span class="woodmart-badge badge-hot">HOT</span>
+                </a>
+              </li>
+              <li>
+                <a href="{% if is_demo_mode %}{% url 'demo_catalog_category' theme_id=active_theme category_slug='couture-silk' %}{% else %}{% url 'catalog_category' category_slug='couture-silk' %}{% endif %}" class="nav-item-link">
+                  Silk Threads
+                  <span class="woodmart-badge badge-sale">-15%</span>
+                </a>
+              </li>
+              <li>
+                <a href="{% if is_demo_mode %}{% url 'demo_catalog_category' theme_id=active_theme category_slug='heavy-rigging-mil-spec-thread' %}{% else %}{% url 'catalog_category' category_slug='heavy-rigging-mil-spec-thread' %}{% endif %}" class="nav-item-link">
+                  Tactical Cordage
+                  <span class="woodmart-badge badge-new">NEW</span>
+                </a>
+              </li>
+              <li><a href="{% if is_demo_mode %}{% url 'demo_catalog_category' theme_id=active_theme category_slug='sashiko-mending' %}{% else %}{% url 'catalog_category' category_slug='sashiko-mending' %}{% endif %}" class="nav-item-link">Visible Mending</a></li>
+              <li><a href="{% url 'home' %}#featured" class="nav-item-link">Bestsellers</a></li>
+            </ul>
+          </nav>
+
+          <!-- Right Corner Callout -->
+          <div class="woodmart-nav-right-callout">
+            <span>⚡ Same-day courier dispatch before 2 PM</span>
+          </div>
+        </div>
+      </div>
+    </header>
+
+  {% elif header_style == 'boutique' %}
+    <!-- ====================================================================
+         HEADER STYLE 2: WOODMART BOUTIQUE LUXURY & HIGH-FASHION HEADER
+         (Used in Atelier Couture, Victorian Haberdashery, Baroque Goldwork, Gothic)
+         ==================================================================== -->
+    <header class="header-woodmart-wrap header-style-boutique">
+      <!-- Luxury Concierge Topbar -->
+      <div class="boutique-topbar">
+        <div class="container boutique-topbar-inner">
+          <div class="boutique-cities">PARIS • LONDON • FLORENCE • KYOTO</div>
+          <div class="boutique-concierge">VIP CONCIERGE: CONCIERGE@NEEDLEANDCRAFT.COM | COMPLIMENTARY COURIER OVER $50</div>
+          <div class="boutique-admin"><a href="{% url 'store_admin' %}">Merchant Vault</a></div>
+        </div>
+      </div>
+
+      <!-- Main Luxury Center Bar -->
+      <div class="boutique-main-header">
+        <div class="container boutique-main-inner">
+          <div class="boutique-left">
+            <button type="button" class="boutique-collections-trigger" id="boutiqueCollectionsTrigger">
+              <span>⚜️</span> HAUTE COLLECTIONS ▾
+            </button>
+          </div>
+
+          <!-- Centered Regal Monogram Logo -->
+          <a href="{% if is_demo_mode %}{% url 'demo_home' theme_id=active_theme %}{% else %}{% url 'home' %}{% endif %}" class="boutique-brand-logo">
+            <div class="boutique-monogram">⚜️</div>
+            <h2>{{ store_config.store_name }}</h2>
+            <p>{{ current_theme.subtitle }}</p>
+          </a>
+
+          <!-- Right Luxury Search & Bag -->
+          <div class="boutique-right">
+            <!-- Big Luxury Search Bar -->
+            <form action="{% if is_demo_mode %}{% url 'demo_catalog' theme_id=active_theme %}{% else %}{% url 'catalog' %}{% endif %}" method="GET" class="boutique-search-form">
+              <input type="text" name="q" placeholder="Search the collection..." value="{{ request.GET.q|default:'' }}" class="boutique-search-input">
+              <button type="submit" class="boutique-search-btn">🔍</button>
+            </form>
+
+            <button type="button" class="boutique-cart-btn" data-cart-open title="View Shopping Bag">
+              <span class="gold-bag-icon">🛍️</span>
+              <span class="gold-bag-badge">{{ cart_count }}</span>
+              <span class="gold-bag-total">${{ cart_subtotal|floatformat:2 }}</span>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Luxury Navigation Links -->
+      <div class="boutique-nav-bar">
+        <div class="container">
+          <ul class="boutique-nav-links">
+            <li><a href="{% if is_demo_mode %}{% url 'demo_home' theme_id=active_theme %}{% else %}{% url 'home' %}{% endif %}">Atelier Home</a></li>
+            <li><a href="{% if is_demo_mode %}{% url 'demo_catalog' theme_id=active_theme %}{% else %}{% url 'catalog' %}{% endif %}">The Grand Catalog</a></li>
+            <li><a href="{% if is_demo_mode %}{% url 'demo_catalog_category' theme_id=active_theme category_slug='couture-silk' %}{% else %}{% url 'catalog_category' category_slug='couture-silk' %}{% endif %}">Divisible French Silks</a></li>
+            <li><a href="{% if is_demo_mode %}{% url 'demo_catalog_category' theme_id=active_theme category_slug='goldwork-ecclesiastical-threads' %}{% else %}{% url 'catalog_category' category_slug='goldwork-ecclesiastical-threads' %}{% endif %}">24k Gilded Bullion Purl</a></li>
+            <li><a href="{% if is_demo_mode %}{% url 'demo_catalog_category' theme_id=active_theme category_slug='victorian-lace' %}{% else %}{% url 'catalog_category' category_slug='victorian-lace' %}{% endif %}">Heirloom Chatelaines</a></li>
+            <li><a href="{% url 'home' %}#featured">Featured Works</a></li>
+          </ul>
+        </div>
+      </div>
+    </header>
+
+  {% elif header_style == 'technical' %}
+    <!-- ====================================================================
+         HEADER STYLE 3: WOODMART TECHNICAL INDUSTRIAL & MIL-SPEC HUD HEADER
+         (Used in Heritage Leathercraft, Precision Micro-Needle, Tactical Rigging)
+         ==================================================================== -->
+    <header class="header-woodmart-wrap header-style-technical">
+      <!-- Technical HUD Topbar -->
+      <div class="technical-topbar">
+        <div class="container technical-topbar-inner">
+          <div><span class="hud-dot"></span> ISO 9001:2015 INDUSTRIAL SPECIFICATIONS REPOSITORY</div>
+          <div>HIGH-SPEED COMPATIBILITY MATRIX: 6,000 RPM TESTED</div>
+          <div><a href="{% url 'store_admin' %}">SYS_ADMIN_PANEL</a></div>
+        </div>
+      </div>
+
+      <!-- Main Technical Header -->
+      <div class="technical-main-header">
+        <div class="container technical-main-inner">
+          <a href="{% if is_demo_mode %}{% url 'demo_home' theme_id=active_theme %}{% else %}{% url 'home' %}{% endif %}" class="technical-brand-logo">
+            <span class="tech-icon">⚙️</span>
+            <div>
+              <h2>{{ store_config.store_name }}</h2>
+              <p>[{{ current_theme.tag|upper }}] // SPEC_REV_2.4</p>
+            </div>
+          </a>
+
+          <!-- Technical SKU & Gauge Rapid Search -->
+          <div class="technical-search-wrap">
+            <form action="{% if is_demo_mode %}{% url 'demo_catalog' theme_id=active_theme %}{% else %}{% url 'catalog' %}{% endif %}" method="GET" class="technical-search-form">
+              <select name="category" class="technical-gauge-select">
+                <option value="">[ALL GAUGES & SPECS]</option>
+                {% for cat in all_categories %}
+                  <option value="{{ cat.slug }}">{{ cat.name }}</option>
+                {% endfor %}
+              </select>
+              <input type="text" name="q" placeholder="QUERY SKU / NEEDLE GAUGE / TENSILE LBS..." value="{{ request.GET.q|default:'' }}" class="technical-search-input">
+              <button type="submit" class="technical-search-btn">EXECUTE</button>
+            </form>
+          </div>
+
+          <!-- Tool Bag Action -->
+          <button type="button" class="technical-cart-btn" data-cart-open>
+            <span>TOOL_BAG [{{ cart_count }}]</span>
+            <span class="tech-cart-price">${{ cart_subtotal|floatformat:2 }}</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- Technical Navigation Bar -->
+      <div class="technical-nav-bar">
+        <div class="container technical-nav-inner">
+          <button type="button" class="technical-spec-catalog-btn" id="technicalCatalogBtn">
+            <span>🛠️</span> SPEC_CATALOG_INDEX ▾
+          </button>
+          <ul class="technical-nav-links">
+            <li><a href="{% if is_demo_mode %}{% url 'demo_home' theme_id=active_theme %}{% else %}{% url 'home' %}{% endif %}">TERMINAL_HOME</a></li>
+            <li><a href="{% if is_demo_mode %}{% url 'demo_catalog' theme_id=active_theme %}{% else %}{% url 'catalog' %}{% endif %}">ALL_INVENTORY</a></li>
+            <li><a href="{% if is_demo_mode %}{% url 'demo_catalog_category' theme_id=active_theme category_slug='industrial-needles' %}{% else %}{% url 'catalog_category' category_slug='industrial-needles' %}{% endif %}">GROZ-BECKERT_DBx1</a></li>
+            <li><a href="{% if is_demo_mode %}{% url 'demo_catalog_category' theme_id=active_theme category_slug='heavy-rigging-mil-spec-thread' %}{% else %}{% url 'catalog_category' category_slug='heavy-rigging-mil-spec-thread' %}{% endif %}">KEVLAR_MIL_SPEC</a></li>
+            <li><a href="{% if is_demo_mode %}{% url 'demo_catalog_category' theme_id=active_theme category_slug='leather-awls' %}{% else %}{% url 'catalog_category' category_slug='leather-awls' %}{% endif %}">HARNESS_AWLS</a></li>
+          </ul>
+        </div>
+      </div>
+    </header>
+
+  {% else %}
+    <!-- ====================================================================
+         HEADER STYLE 4: WOODMART ARTISANAL & ORGANIC WORKSHOP HEADER
+         (Used in Sashiko, Botanical Dyehouse, Boho Weft, Retro 70s, Art Nouveau)
+         ==================================================================== -->
+    <header class="header-woodmart-wrap header-style-artisanal">
+      <!-- Organic Craft Topbar -->
+      <div class="artisanal-topbar">
+        <div class="container artisanal-topbar-inner">
+          <div>🌿 <strong>100% Biodegradable Fibers & Natural Plant Dyes</strong> • Master Artisan Collectives</div>
+          <div class="artisanal-quote">"Repairing with beauty, honoring every thread"</div>
+          <div><a href="{% url 'store_admin' %}">Merchant Workshop</a></div>
+        </div>
+      </div>
+
+      <!-- Main Artisanal Header -->
+      <div class="artisanal-main-header">
+        <div class="container artisanal-main-inner">
+          <a href="{% if is_demo_mode %}{% url 'demo_home' theme_id=active_theme %}{% else %}{% url 'home' %}{% endif %}" class="artisanal-brand-logo">
+            <div class="artisan-stamp-seal">印</div>
+            <div class="artisan-brand-text">
+              <h2>{{ store_config.store_name }}</h2>
+              <p>{{ current_theme.tag }} • {{ store_config.tagline }}</p>
+            </div>
+          </a>
+
+          <!-- Running-Stitch Search Bar -->
+          <div class="artisanal-search-wrap">
+            <form action="{% if is_demo_mode %}{% url 'demo_catalog' theme_id=active_theme %}{% else %}{% url 'catalog' %}{% endif %}" method="GET" class="artisanal-search-form">
+              <select name="category" class="artisanal-cat-select">
+                <option value="">All Natural Fibers</option>
+                {% for cat in all_categories %}
+                  <option value="{{ cat.slug }}">{{ cat.name }}</option>
+                {% endfor %}
+              </select>
+              <input type="text" name="q" placeholder="Find Japanese indigo, unbleached flax, plant silks..." value="{{ request.GET.q|default:'' }}" class="artisanal-search-input">
+              <button type="submit" class="artisanal-search-submit">Search</button>
+            </form>
+          </div>
+
+          <!-- Natural Raw Linen Bag Button -->
+          <button type="button" class="artisanal-cart-btn" data-cart-open>
+            <span class="linen-bag-icon">🧺</span>
+            <span>Craft Basket ({{ cart_count }})</span>
+            <span class="linen-subtotal">${{ cart_subtotal|floatformat:2 }}</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- Artisanal Navigation Bar with Running Stitch Accents -->
+      <div class="artisanal-nav-bar">
+        <div class="container artisanal-nav-inner">
+          <div class="artisanal-workshops-btn">
+            <span>🧵</span> CRAFT WORKSHOPS & BOTANICALS ▾
+          </div>
+          <ul class="artisanal-nav-links">
+            <li><a href="{% if is_demo_mode %}{% url 'demo_home' theme_id=active_theme %}{% else %}{% url 'home' %}{% endif %}">Workshop Hearth</a></li>
+            <li><a href="{% if is_demo_mode %}{% url 'demo_catalog' theme_id=active_theme %}{% else %}{% url 'catalog' %}{% endif %}">Whole Catalog</a></li>
+            <li><a href="{% if is_demo_mode %}{% url 'demo_catalog_category' theme_id=active_theme category_slug='sashiko-mending' %}{% else %}{% url 'catalog_category' category_slug='sashiko-mending' %}{% endif %}">Japanese Sashiko & Boro</a></li>
+            <li><a href="{% if is_demo_mode %}{% url 'demo_catalog_category' theme_id=active_theme category_slug='botanical-silk' %}{% else %}{% url 'catalog_category' category_slug='botanical-silk' %}{% endif %}">Madder & Indigo Dye</a></li>
+            <li><a href="{% if is_demo_mode %}{% url 'demo_catalog_category' theme_id=active_theme category_slug='retro-70s-macrame-cord' %}{% else %}{% url 'catalog_category' category_slug='retro-70s-macrame-cord' %}{% endif %}">Earthy Hemp & Jute</a></li>
+            <li><a href="{% url 'home' %}#featured">Artisan Picks</a></li>
+          </ul>
+        </div>
+      </div>
+    </header>
+  {% endif %}
+
 
   <!-- Main View Content -->
   <main>

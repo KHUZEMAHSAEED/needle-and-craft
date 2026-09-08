@@ -14,6 +14,9 @@ urlpatterns = [
     path('catalog/<slug:category_slug>/', views.catalog_view, name='catalog_category'),
     path('product/<slug:slug>/', views.product_detail_view, name='product_detail'),
     
+    # Search Autocomplete API
+    path('api/search/', views.quick_search_api, name='quick_search_api'),
+    
     # Cart AJAX API
     path('api/cart/', views.cart_data, name='cart_data'),
     path('api/cart/add/', views.cart_add, name='cart_add'),

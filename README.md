@@ -60,10 +60,31 @@ Say goodbye to messy query parameters (`?theme=...`). The platform features full
 
 ## 🚀 Key Features
 
+### 🏛️ WoodMart-Inspired Multi-Tier Headers & Mega Menus
+Taking design inspiration from premier WordPress e-commerce themes (WoodMart), each demo archetype dynamically renders tailored multi-tier header systems:
+- **WoodMart Mega Marketplace Header** *(Themes: Modern Quilter, Nordic, Neon Tuft, Kawaii)*:
+  - **Top Bar**: Free shipping progress, customer hotline, currency picker, and flash coupon notice.
+  - **Main Bar**: Brand logo, **Big Central Search Bar with Category Dropdown & Live AJAX Autocomplete Search**, Wishlist counter, and Cart button with live total.
+  - **Bottom Navigation Bar**: Prominent **"BROWSE CATEGORIES" Button** triggering a **Big 4-Column Mega Menu** (Fine Silks, Mending & Heavy Craft, Machine & Technical, and a Featured Merchant Promo Card), plus horizontal nav links with `HOT`, `SALE`, and `NEW` pill badges!
+- **Boutique Luxury Header** *(Themes: Atelier Couture, Victorian, Baroque, Gothic)*:
+  - Luxury concierge topbar, regal centered monogram, gold-etched collection search, and gilded Haute Collections mega menu.
+- **Technical Industrial & Mil-Spec HUD Header** *(Themes: Leathercraft, Precision, Tactical)*:
+  - ISO 9001 topbar with status dot, rapid SKU/Needle Gauge search bar, and Technical Spec Catalog index.
+- **Artisanal Workshop Header** *(Themes: Sashiko, Botanical, Boho, Retro 70s, Art Nouveau)*:
+  - 100% natural fiber topbar, hand-stamped seal logo, and running-stitch textured search console.
+
+### 🔎 Home Page Catalog Search & 16-Department Directory
+- **Dedicated Home Search Console**: Prominent search bar directly on the homepage with category picker, live AJAX suggestions dropdown, and instant search.
+- **Popular Search Quick Chips**: Clickable shortcuts for *Pure Silk Floss*, *Japanese Sashiko*, *Titanium DBx1*, *Kevlar Mil-Spec*, *Real Goldwork Purl*, *Oxford Punch Needles*, and *Milk Cotton Fluff*.
+- **All 16 Haberdashery Departments Grid**: Responsive cards with icons, product counts, and descriptions for all 16 specialized niches.
+
+### ⚡ Live Search Autocomplete API (`/api/search/`)
+- Fast, debounced instant search returning real-time product cards with thumbnails, categories, titles, and live prices as the user types without leaving the page.
+
 ### 🎨 Live Theme Switcher Bar
 - Sticky bar at the top of every page displaying theme number and color chips.
 - Toggles CSS custom properties (`[data-theme="..."]`) instantaneously without page reload.
-- Client selection is saved across sessions and query parameters (`?theme=<id>`).
+- Client selection is saved across sessions and clean SEO routes (`/demo/<id>/`).
 
 ### 🧵 Interactive Product Catalog & Search
 - Live search filtering by title, description, and SKU.

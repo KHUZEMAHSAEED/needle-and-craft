@@ -2154,3 +2154,1362 @@ button, input, select, textarea {
   color: var(--store-primary);
 }
 
+/* ==========================================================================
+   WOODMART-INSPIRED MULTI-TIER HEADERS & MEGA MENUS
+   ========================================================================== */
+
+.header-woodmart-wrap {
+  width: 100%;
+  position: relative;
+  z-index: 1000;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.06);
+}
+
+/* --------------------------------------------------------------------------
+   STYLE 1: WOODMART MEGA MARKETPLACE / SUPERSTORE HEADER (.header-style-mega)
+   -------------------------------------------------------------------------- */
+.woodmart-topbar {
+  background: var(--store-surface-raised);
+  border-bottom: 1px solid var(--store-border);
+  padding: 8px 0;
+  font-size: 12px;
+  color: var(--store-text-muted);
+}
+
+.woodmart-topbar-inner {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.topbar-left, .topbar-right {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.topbar-sep {
+  opacity: 0.4;
+}
+
+.topbar-promo strong {
+  color: var(--store-primary);
+}
+
+.topbar-link {
+  color: var(--store-text-muted);
+  text-decoration: none;
+  cursor: pointer;
+  transition: color var(--transition-fast);
+}
+
+.topbar-link:hover {
+  color: var(--store-primary);
+}
+
+/* WoodMart Main Header */
+.woodmart-main-header {
+  background: var(--store-surface);
+  border-bottom: 1px solid var(--store-border);
+  padding: 16px 0;
+}
+
+.woodmart-main-inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+}
+
+.woodmart-brand-logo {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  text-decoration: none;
+  color: var(--store-text);
+  flex-shrink: 0;
+}
+
+.woodmart-brand-logo h2 {
+  font-family: var(--font-heading);
+  font-size: 20px;
+  margin: 0;
+  line-height: 1.2;
+}
+
+.woodmart-brand-logo p {
+  font-size: 11px;
+  color: var(--store-text-muted);
+  margin: 2px 0 0;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+/* Big Search Bar Component */
+.woodmart-search-wrapper {
+  flex: 1;
+  max-width: 640px;
+  position: relative;
+}
+
+.woodmart-search-form {
+  display: flex;
+  align-items: stretch;
+  background: var(--store-surface-card);
+  border: 2px solid var(--store-border);
+  border-radius: var(--store-radius);
+  overflow: hidden;
+  transition: border-color var(--transition-fast), box-shadow var(--transition-fast);
+}
+
+.woodmart-search-form:focus-within {
+  border-color: var(--store-primary);
+  box-shadow: 0 0 0 3px rgba(212, 175, 55, 0.15);
+}
+
+.woodmart-cat-dropdown-wrap {
+  background: var(--store-surface-raised);
+  border-right: 1px solid var(--store-border);
+  display: flex;
+  align-items: center;
+  padding: 0 8px;
+  flex-shrink: 0;
+}
+
+.woodmart-cat-select {
+  background: transparent;
+  border: none;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--store-text);
+  padding: 10px 8px;
+  outline: none;
+  cursor: pointer;
+  max-width: 140px;
+}
+
+.woodmart-search-input-wrap {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  position: relative;
+}
+
+.woodmart-search-input {
+  width: 100%;
+  border: none;
+  background: transparent;
+  padding: 10px 14px;
+  font-size: 14px;
+  color: var(--store-text);
+  outline: none;
+}
+
+.woodmart-clear-btn {
+  background: transparent;
+  border: none;
+  color: var(--store-text-muted);
+  cursor: pointer;
+  padding: 0 10px;
+  font-size: 14px;
+}
+
+.woodmart-search-submit {
+  background: var(--store-primary);
+  color: var(--store-primary-text);
+  border: none;
+  padding: 0 20px;
+  font-weight: 700;
+  font-size: 13px;
+  letter-spacing: 0.04em;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+  transition: opacity var(--transition-fast);
+  flex-shrink: 0;
+}
+
+.woodmart-search-submit:hover {
+  opacity: 0.92;
+}
+
+/* Live Search Autocomplete Popup */
+.woodmart-search-results-dropdown,
+.home-search-live-dropdown {
+  position: absolute;
+  top: calc(100% + 6px);
+  left: 0;
+  right: 0;
+  background: var(--store-surface-card);
+  border: 1px solid var(--store-border);
+  border-radius: var(--store-radius);
+  box-shadow: 0 12px 36px rgba(0, 0, 0, 0.22);
+  z-index: 1500;
+  display: none;
+  max-height: 440px;
+  overflow-y: auto;
+}
+
+.woodmart-search-results-dropdown.active,
+.home-search-live-dropdown.active {
+  display: block;
+}
+
+.search-item-row {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 12px 16px;
+  border-bottom: 1px solid var(--store-border);
+  text-decoration: none;
+  color: var(--store-text);
+  transition: background var(--transition-fast);
+}
+
+.search-item-row:hover {
+  background: var(--store-surface-raised);
+}
+
+.search-item-thumb {
+  width: 44px;
+  height: 44px;
+  border-radius: 6px;
+  object-fit: cover;
+  border: 1px solid var(--store-border);
+  flex-shrink: 0;
+}
+
+.search-item-info {
+  flex: 1;
+  min-width: 0;
+}
+
+.search-item-cat {
+  font-size: 11px;
+  color: var(--store-text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.search-item-title {
+  font-size: 14px;
+  font-weight: 600;
+  margin: 2px 0 0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.search-item-price {
+  font-weight: 700;
+  color: var(--store-primary);
+  font-size: 14px;
+  flex-shrink: 0;
+}
+
+.search-view-all-footer {
+  padding: 12px;
+  text-align: center;
+  background: var(--store-surface-raised);
+  font-weight: 700;
+  font-size: 13px;
+  color: var(--store-primary);
+  text-decoration: none;
+  display: block;
+}
+
+/* WoodMart Header Actions (Account, Wishlist, Bag) */
+.woodmart-header-actions {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  flex-shrink: 0;
+}
+
+.woodmart-action-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  text-decoration: none;
+  color: var(--store-text);
+  cursor: pointer;
+  transition: opacity var(--transition-fast);
+}
+
+.woodmart-action-item:hover {
+  opacity: 0.8;
+}
+
+.action-icon {
+  font-size: 20px;
+  position: relative;
+  display: inline-flex;
+}
+
+.action-badge {
+  position: absolute;
+  top: -4px;
+  right: -8px;
+  background: var(--store-primary);
+  color: var(--store-primary-text);
+  font-size: 10px;
+  font-weight: 800;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.action-text {
+  display: flex;
+  flex-direction: column;
+  line-height: 1.2;
+}
+
+.action-sub {
+  font-size: 10px;
+  color: var(--store-text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.action-main {
+  font-size: 13px;
+  font-weight: 700;
+}
+
+/* WoodMart Cart Button */
+.woodmart-cart-btn {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: var(--store-surface-card);
+  border: 1px solid var(--store-border);
+  padding: 8px 14px;
+  border-radius: var(--store-radius);
+  cursor: pointer;
+  color: var(--store-text);
+  transition: border-color var(--transition-fast), background var(--transition-fast);
+}
+
+.woodmart-cart-btn:hover {
+  border-color: var(--store-primary);
+  background: var(--store-surface-raised);
+}
+
+.cart-icon-wrap {
+  position: relative;
+  font-size: 20px;
+}
+
+.cart-count-badge {
+  position: absolute;
+  top: -6px;
+  right: -8px;
+  background: var(--store-primary);
+  color: var(--store-primary-text);
+  font-size: 10px;
+  font-weight: 800;
+  width: 17px;
+  height: 17px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.cart-text-wrap {
+  display: flex;
+  flex-direction: column;
+  text-align: left;
+  line-height: 1.2;
+}
+
+.cart-sub {
+  font-size: 10px;
+  color: var(--store-text-muted);
+  text-transform: uppercase;
+}
+
+.cart-amount {
+  font-size: 14px;
+  font-weight: 800;
+  color: var(--store-primary);
+}
+
+/* WoodMart Bottom Navigation Bar */
+.woodmart-nav-bar {
+  background: var(--store-surface-raised);
+  border-bottom: 1px solid var(--store-border);
+}
+
+.woodmart-nav-inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+}
+
+/* "BROWSE CATEGORIES" Mega Menu Button */
+.woodmart-categories-menu-wrap {
+  position: relative;
+}
+
+.woodmart-categories-btn {
+  background: var(--store-primary);
+  color: var(--store-primary-text);
+  border: none;
+  padding: 14px 20px;
+  font-weight: 800;
+  font-size: 13px;
+  letter-spacing: 0.05em;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  cursor: pointer;
+  transition: opacity var(--transition-fast);
+}
+
+.woodmart-categories-btn:hover {
+  opacity: 0.92;
+}
+
+/* BIG 4-COLUMN MEGA MENU DROPDOWN */
+.woodmart-mega-menu-dropdown {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  width: 960px;
+  background: var(--store-surface-card);
+  border: 1px solid var(--store-border);
+  border-top: 2px solid var(--store-primary);
+  border-radius: 0 0 var(--store-radius) var(--store-radius);
+  box-shadow: 0 16px 48px rgba(0, 0, 0, 0.24);
+  z-index: 1200;
+  display: none;
+  padding: 24px;
+}
+
+.woodmart-categories-menu-wrap:hover .woodmart-mega-menu-dropdown,
+.woodmart-mega-menu-dropdown.active {
+  display: block;
+}
+
+.mega-menu-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr) 1.2fr;
+  gap: 24px;
+}
+
+.mega-menu-col {
+  display: flex;
+  flex-direction: column;
+}
+
+.mega-col-title {
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--store-text);
+  margin-bottom: 14px;
+  padding-bottom: 8px;
+  border-bottom: 1px solid var(--store-border);
+}
+
+.mega-links-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.mega-links-list a {
+  color: var(--store-text-muted);
+  text-decoration: none;
+  font-size: 13px;
+  transition: color var(--transition-fast), transform var(--transition-fast);
+  display: inline-block;
+}
+
+.mega-links-list a:hover {
+  color: var(--store-primary);
+  transform: translateX(4px);
+}
+
+.mega-view-all {
+  font-weight: 700 !important;
+  color: var(--store-primary) !important;
+  margin-top: 6px;
+}
+
+/* Promo Banner inside Mega Menu */
+.mega-promo-card {
+  background: linear-gradient(135deg, var(--store-surface-raised), var(--store-surface));
+  border: 1px solid var(--store-border);
+  border-radius: var(--store-radius);
+  padding: 20px;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.promo-pill {
+  display: inline-block;
+  background: var(--store-primary);
+  color: var(--store-primary-text);
+  font-size: 10px;
+  font-weight: 800;
+  padding: 4px 8px;
+  border-radius: 999px;
+  width: fit-content;
+  margin-bottom: 10px;
+}
+
+.mega-promo-card h3 {
+  font-family: var(--font-heading);
+  font-size: 16px;
+  margin: 0 0 8px;
+  color: var(--store-text);
+}
+
+.mega-promo-card p {
+  font-size: 12px;
+  color: var(--store-text-muted);
+  margin: 0 0 16px;
+}
+
+.mega-promo-btn {
+  background: var(--store-text);
+  color: var(--store-surface);
+  text-decoration: none;
+  padding: 8px 16px;
+  border-radius: var(--store-radius);
+  font-size: 12px;
+  font-weight: 700;
+  text-align: center;
+  transition: opacity var(--transition-fast);
+}
+
+.mega-promo-btn:hover {
+  opacity: 0.85;
+}
+
+/* WoodMart Horizontal Nav */
+.woodmart-horizontal-nav {
+  flex: 1;
+}
+
+.woodmart-nav-links {
+  list-style: none;
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  margin: 0;
+  padding: 0;
+}
+
+.nav-item-link {
+  color: var(--store-text);
+  text-decoration: none;
+  font-size: 14px;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 14px 0;
+  transition: color var(--transition-fast);
+  position: relative;
+}
+
+.nav-item-link:hover {
+  color: var(--store-primary);
+}
+
+/* Badges (HOT, SALE, NEW) */
+.woodmart-badge {
+  font-size: 9px;
+  font-weight: 800;
+  padding: 2px 6px;
+  border-radius: 999px;
+  line-height: 1.2;
+  text-transform: uppercase;
+}
+
+.badge-hot {
+  background: #FF4757;
+  color: #FFF;
+}
+
+.badge-sale {
+  background: #FF6B6B;
+  color: #FFF;
+}
+
+.badge-new {
+  background: #2ED573;
+  color: #FFF;
+}
+
+.woodmart-nav-right-callout {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--store-primary);
+  white-space: nowrap;
+}
+
+/* --------------------------------------------------------------------------
+   STYLE 2: WOODMART BOUTIQUE LUXURY HEADER (.header-style-boutique)
+   -------------------------------------------------------------------------- */
+.boutique-topbar {
+  background: var(--store-surface-raised);
+  border-bottom: 1px solid var(--store-border);
+  padding: 6px 0;
+  font-size: 11px;
+  letter-spacing: 0.08em;
+  color: var(--store-text-muted);
+}
+
+.boutique-topbar-inner {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.boutique-main-header {
+  background: var(--store-surface);
+  border-bottom: 1px solid var(--store-border);
+  padding: 20px 0;
+}
+
+.boutique-main-inner {
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  align-items: center;
+  gap: 20px;
+}
+
+.boutique-collections-trigger {
+  background: transparent;
+  border: 1px solid var(--store-border);
+  color: var(--store-text);
+  padding: 8px 14px;
+  border-radius: var(--store-radius);
+  font-size: 12px;
+  font-weight: 700;
+  cursor: pointer;
+  letter-spacing: 0.06em;
+}
+
+.boutique-brand-logo {
+  text-align: center;
+  text-decoration: none;
+  color: var(--store-text);
+}
+
+.boutique-monogram {
+  font-size: 26px;
+  margin-bottom: 4px;
+}
+
+.boutique-brand-logo h2 {
+  font-family: var(--font-heading);
+  font-size: 24px;
+  margin: 0;
+  letter-spacing: 0.04em;
+}
+
+.boutique-brand-logo p {
+  font-size: 11px;
+  color: var(--store-primary);
+  margin: 2px 0 0;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.boutique-right {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 16px;
+}
+
+.boutique-search-form {
+  display: flex;
+  align-items: center;
+  background: var(--store-surface-card);
+  border: 1px solid var(--store-border-strong);
+  border-radius: var(--store-radius);
+  padding: 4px 8px;
+}
+
+.boutique-search-input {
+  border: none;
+  background: transparent;
+  padding: 6px 10px;
+  font-size: 13px;
+  color: var(--store-text);
+  outline: none;
+  width: 180px;
+}
+
+.boutique-search-btn {
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+.boutique-cart-btn {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: var(--store-surface-card);
+  border: 1px solid var(--store-border-strong);
+  padding: 8px 14px;
+  border-radius: var(--store-radius);
+  cursor: pointer;
+  color: var(--store-text);
+}
+
+.gold-bag-total {
+  font-weight: 700;
+  color: var(--store-primary);
+}
+
+.boutique-nav-bar {
+  background: var(--store-surface-raised);
+  border-bottom: 1px solid var(--store-border);
+  padding: 10px 0;
+}
+
+.boutique-nav-links {
+  list-style: none;
+  display: flex;
+  justify-content: center;
+  gap: 28px;
+  margin: 0;
+  padding: 0;
+}
+
+.boutique-nav-links a {
+  text-decoration: none;
+  color: var(--store-text);
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  transition: color var(--transition-fast);
+}
+
+.boutique-nav-links a:hover {
+  color: var(--store-primary);
+}
+
+/* --------------------------------------------------------------------------
+   STYLE 3: WOODMART TECHNICAL & MIL-SPEC HUD HEADER (.header-style-technical)
+   -------------------------------------------------------------------------- */
+.technical-topbar {
+  background: #0B0E14;
+  color: #06B6D4;
+  font-family: 'Space Grotesk', monospace;
+  font-size: 11px;
+  padding: 6px 0;
+  border-bottom: 1px solid #1E293B;
+}
+
+.technical-topbar-inner {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.hud-dot {
+  display: inline-block;
+  width: 7px;
+  height: 7px;
+  background: #10B981;
+  border-radius: 50%;
+  margin-right: 6px;
+  box-shadow: 0 0 6px #10B981;
+}
+
+.technical-main-header {
+  background: var(--store-surface);
+  border-bottom: 1px solid var(--store-border);
+  padding: 14px 0;
+}
+
+.technical-main-inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+}
+
+.technical-brand-logo {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  text-decoration: none;
+  color: var(--store-text);
+  font-family: 'Space Grotesk', monospace;
+}
+
+.tech-icon {
+  font-size: 24px;
+}
+
+.technical-search-wrap {
+  flex: 1;
+  max-width: 580px;
+}
+
+.technical-search-form {
+  display: flex;
+  border: 1px solid var(--store-border-strong);
+  border-radius: var(--store-radius);
+  background: var(--store-surface-card);
+  overflow: hidden;
+  font-family: 'Space Grotesk', monospace;
+}
+
+.technical-gauge-select {
+  background: var(--store-surface-raised);
+  border: none;
+  border-right: 1px solid var(--store-border);
+  color: var(--store-text);
+  padding: 8px 12px;
+  font-size: 12px;
+  outline: none;
+}
+
+.technical-search-input {
+  flex: 1;
+  border: none;
+  background: transparent;
+  padding: 8px 12px;
+  font-size: 12px;
+  color: var(--store-text);
+  outline: none;
+  font-family: 'Space Grotesk', monospace;
+}
+
+.technical-search-btn {
+  background: var(--store-primary);
+  color: var(--store-primary-text);
+  border: none;
+  padding: 0 16px;
+  font-weight: 700;
+  font-size: 11px;
+  letter-spacing: 0.06em;
+  cursor: pointer;
+}
+
+.technical-cart-btn {
+  background: var(--store-surface-raised);
+  border: 1px solid var(--store-border);
+  padding: 8px 16px;
+  border-radius: var(--store-radius);
+  font-family: 'Space Grotesk', monospace;
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--store-text);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.tech-cart-price {
+  color: var(--store-primary);
+}
+
+.technical-nav-bar {
+  background: var(--store-surface-raised);
+  border-bottom: 1px solid var(--store-border);
+  padding: 6px 0;
+  font-family: 'Space Grotesk', monospace;
+}
+
+.technical-nav-inner {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+.technical-spec-catalog-btn {
+  background: var(--store-surface-card);
+  border: 1px solid var(--store-border-strong);
+  padding: 6px 14px;
+  border-radius: var(--store-radius);
+  font-family: 'Space Grotesk', monospace;
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--store-text);
+  cursor: pointer;
+}
+
+.technical-nav-links {
+  list-style: none;
+  display: flex;
+  gap: 18px;
+  margin: 0;
+  padding: 0;
+}
+
+.technical-nav-links a {
+  text-decoration: none;
+  color: var(--store-text-muted);
+  font-size: 12px;
+  font-weight: 600;
+  transition: color var(--transition-fast);
+}
+
+.technical-nav-links a:hover {
+  color: var(--store-primary);
+}
+
+/* --------------------------------------------------------------------------
+   STYLE 4: WOODMART ARTISANAL WORKSHOP HEADER (.header-style-artisanal)
+   -------------------------------------------------------------------------- */
+.artisanal-topbar {
+  background: var(--store-surface-raised);
+  border-bottom: 1px dashed var(--store-border-strong);
+  padding: 8px 0;
+  font-size: 12px;
+  color: var(--store-text-muted);
+}
+
+.artisanal-topbar-inner {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.artisanal-quote {
+  font-style: italic;
+  opacity: 0.85;
+}
+
+.artisanal-main-header {
+  background: var(--store-surface);
+  border-bottom: 1px dashed var(--store-border-strong);
+  padding: 16px 0;
+}
+
+.artisanal-main-inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+}
+
+.artisanal-brand-logo {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  text-decoration: none;
+  color: var(--store-text);
+}
+
+.artisan-stamp-seal {
+  width: 36px;
+  height: 36px;
+  border: 2px solid var(--store-primary);
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--store-primary);
+  font-weight: 800;
+  font-size: 18px;
+}
+
+.artisanal-search-wrap {
+  flex: 1;
+  max-width: 580px;
+}
+
+.artisanal-search-form {
+  display: flex;
+  border: 1px dashed var(--store-border-strong);
+  border-radius: var(--store-radius);
+  background: var(--store-surface-card);
+  overflow: hidden;
+}
+
+.artisanal-cat-select {
+  background: var(--store-surface-raised);
+  border: none;
+  border-right: 1px dashed var(--store-border);
+  padding: 8px 12px;
+  font-size: 13px;
+  color: var(--store-text);
+  outline: none;
+}
+
+.artisanal-search-input {
+  flex: 1;
+  border: none;
+  background: transparent;
+  padding: 8px 12px;
+  font-size: 13px;
+  color: var(--store-text);
+  outline: none;
+}
+
+.artisanal-search-submit {
+  background: var(--store-primary);
+  color: var(--store-primary-text);
+  border: none;
+  padding: 0 16px;
+  font-weight: 700;
+  font-size: 13px;
+  cursor: pointer;
+}
+
+.artisanal-cart-btn {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: var(--store-surface-raised);
+  border: 1px dashed var(--store-border-strong);
+  padding: 8px 14px;
+  border-radius: var(--store-radius);
+  cursor: pointer;
+  color: var(--store-text);
+  font-weight: 600;
+  font-size: 13px;
+}
+
+.linen-subtotal {
+  font-weight: 800;
+  color: var(--store-primary);
+}
+
+.artisanal-nav-bar {
+  background: var(--store-surface-raised);
+  border-bottom: 1px dashed var(--store-border-strong);
+  padding: 10px 0;
+}
+
+.artisanal-nav-inner {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+}
+
+.artisanal-workshops-btn {
+  font-weight: 700;
+  font-size: 13px;
+  color: var(--store-primary);
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  cursor: pointer;
+}
+
+.artisanal-nav-links {
+  list-style: none;
+  display: flex;
+  gap: 20px;
+  margin: 0;
+  padding: 0;
+}
+
+.artisanal-nav-links a {
+  text-decoration: none;
+  color: var(--store-text);
+  font-size: 13px;
+  font-weight: 600;
+  transition: color var(--transition-fast);
+}
+
+.artisanal-nav-links a:hover {
+  color: var(--store-primary);
+}
+
+/* ==========================================================================
+   HOME PAGE WOODMART-STYLE CATALOG SEARCH & DIRECTORY CONSOLE
+   ========================================================================== */
+.home-catalog-search-section {
+  margin: 40px auto;
+}
+
+.home-search-box-card {
+  background: linear-gradient(135deg, var(--store-surface-card), var(--store-surface-raised));
+  border: 1px solid var(--store-border);
+  border-radius: var(--store-radius);
+  padding: 36px 32px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+  text-align: center;
+  margin-bottom: 36px;
+}
+
+.home-search-badge {
+  display: inline-block;
+  background: var(--store-primary);
+  color: var(--store-primary-text);
+  font-size: 11px;
+  font-weight: 800;
+  padding: 4px 12px;
+  border-radius: 999px;
+  margin-bottom: 12px;
+  letter-spacing: 0.04em;
+}
+
+.home-search-header h2 {
+  font-family: var(--font-heading);
+  font-size: 28px;
+  margin: 0 0 8px;
+  color: var(--store-text);
+}
+
+.home-search-header p {
+  color: var(--store-text-muted);
+  font-size: 14px;
+  max-width: 600px;
+  margin: 0 auto 24px;
+}
+
+.home-main-search-form {
+  display: flex;
+  align-items: stretch;
+  max-width: 760px;
+  margin: 0 auto 18px;
+  background: var(--store-surface);
+  border: 2px solid var(--store-border);
+  border-radius: var(--store-radius);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.08);
+  position: relative;
+  overflow: visible;
+}
+
+.home-main-search-form:focus-within {
+  border-color: var(--store-primary);
+}
+
+.home-search-cat-picker {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  background: var(--store-surface-raised);
+  border-right: 1px solid var(--store-border);
+  padding: 0 14px;
+  border-radius: var(--store-radius) 0 0 var(--store-radius);
+}
+
+.home-search-select {
+  border: none;
+  background: transparent;
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--store-text);
+  padding: 14px 4px;
+  outline: none;
+  cursor: pointer;
+  max-width: 170px;
+}
+
+.home-search-input-box {
+  flex: 1;
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.home-search-input {
+  width: 100%;
+  border: none;
+  background: transparent;
+  padding: 14px 18px;
+  font-size: 15px;
+  color: var(--store-text);
+  outline: none;
+}
+
+.home-search-btn {
+  background: var(--store-primary);
+  color: var(--store-primary-text);
+  border: none;
+  padding: 0 28px;
+  font-size: 14px;
+  font-weight: 800;
+  letter-spacing: 0.04em;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  border-radius: 0 var(--store-radius) var(--store-radius) 0;
+  transition: opacity var(--transition-fast);
+}
+
+.home-search-btn:hover {
+  opacity: 0.92;
+}
+
+.home-search-tags {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 8px;
+  font-size: 12px;
+}
+
+.tags-label {
+  color: var(--store-text-muted);
+  font-weight: 600;
+}
+
+.search-tag-chip {
+  background: var(--store-surface);
+  border: 1px solid var(--store-border);
+  color: var(--store-text);
+  padding: 5px 12px;
+  border-radius: 999px;
+  text-decoration: none;
+  font-size: 12px;
+  font-weight: 500;
+  transition: all var(--transition-fast);
+}
+
+.search-tag-chip:hover {
+  border-color: var(--store-primary);
+  background: var(--store-primary);
+  color: var(--store-primary-text);
+}
+
+/* Mega Categories 16-Directory Grid */
+.home-mega-categories-wrap {
+  margin-top: 20px;
+}
+
+.mega-categories-header {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  margin-bottom: 20px;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.mega-cat-heading {
+  font-family: var(--font-heading);
+  font-size: 22px;
+  margin: 0 0 4px;
+  color: var(--store-text);
+}
+
+.mega-cat-sub {
+  font-size: 13px;
+  color: var(--store-text-muted);
+  margin: 0;
+}
+
+.view-all-cats-link {
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--store-primary);
+  text-decoration: none;
+}
+
+.home-mega-categories-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 16px;
+}
+
+.home-mega-cat-card {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  background: var(--store-surface-card);
+  border: 1px solid var(--store-border);
+  border-radius: var(--store-radius);
+  padding: 16px;
+  text-decoration: none;
+  color: var(--store-text);
+  transition: transform var(--transition-fast), border-color var(--transition-fast), box-shadow var(--transition-fast);
+}
+
+.home-mega-cat-card:hover {
+  transform: translateY(-3px);
+  border-color: var(--store-primary);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+}
+
+.mega-cat-icon-wrap {
+  width: 44px;
+  height: 44px;
+  border-radius: var(--store-radius);
+  background: var(--store-surface-raised);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 22px;
+  flex-shrink: 0;
+}
+
+.mega-cat-content {
+  flex: 1;
+  min-width: 0;
+}
+
+.mega-cat-content h4 {
+  font-size: 14px;
+  font-weight: 700;
+  margin: 0 0 2px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.mega-cat-content p {
+  font-size: 11px;
+  color: var(--store-text-muted);
+  margin: 0 0 4px;
+  line-height: 1.3;
+}
+
+.mega-cat-count {
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--store-primary);
+}
+
+.mega-cat-arrow {
+  font-size: 16px;
+  color: var(--store-text-muted);
+  transition: transform var(--transition-fast), color var(--transition-fast);
+}
+
+.home-mega-cat-card:hover .mega-cat-arrow {
+  transform: translateX(4px);
+  color: var(--store-primary);
+}
+
+@media (max-width: 992px) {
+  .woodmart-main-inner {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  .woodmart-search-wrapper {
+    max-width: 100%;
+  }
+  .woodmart-mega-menu-dropdown {
+    width: 100%;
+  }
+  .mega-menu-grid {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+
