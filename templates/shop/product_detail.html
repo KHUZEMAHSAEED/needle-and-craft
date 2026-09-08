@@ -1,0 +1,172 @@
+{% extends 'shop/base.html' %}
+{% load static %}
+
+{% block title %}{{ product.title }} - {{ store_config.store_name }}{% endblock %}
+
+{% block content %}
+<div class="container product-detail-layout">
+  <!-- Breadcrumbs -->
+  <div style="font-size: 13px; color: var(--store-text-muted); margin-bottom: 24px;">
+    <a href="{% url 'home' %}">Home</a> &nbsp;/&nbsp;
+    <a href="{% url 'catalog' %}">Catalog</a> &nbsp;/&nbsp;
+    <a href="{% url 'catalog' %}?category={{ product.category.slug }}">{{ product.category.name }}</a> &nbsp;/&nbsp;
+    <span style="color: var(--store-text);">{{ product.title }}</span>
+  </div>
+
+  <div class="product-detail-grid">
+    <!-- Media / Image Frame -->
+    <div class="detail-gallery">
+      <div class="detail-main-img-frame">
+        <img src="{{ product.image_url }}" alt="{{ product.title }}" id="detailMainImage">
+      </div>
+      <div style="display: flex; gap: 12px; margin-top: 14px;">
+        <div style="width: 70px; height: 70px; border-radius: var(--store-radius); overflow: hidden; border: 2px solid var(--store-primary); cursor: pointer;">
+          <img src="{{ product.image_url }}" alt="Thumb" style="width: 100%; height: 100%; object-fit: cover;">
+        </div>
+      </div>
+    </div>
+
+    <!-- Purchase Info & Selectors -->
+    <div class="detail-info">
+      <div>
+        <span class="product-card-category" style="font-size: 12px;">{{ product.category.name }} • SKU: {{ product.sku }}</span>
+        <h1 class="detail-title" style="margin-top: 6px;">{{ product.title }}</h1>
+        <div style="display: flex; align-items: center; gap: 8px; margin-top: 8px; font-size: 14px;">
+          <span style="color: #f59e0b;">★ ★ ★ ★ ★</span>
+          <strong>{{ product.rating }}</strong>
+          <span style="color: var(--store-text-muted);">({{ product.reviews_count }} verified artisan reviews)</span>
+        </div>
+      </div>
+
+      <div class="detail-price-row">
+        <span class="detail-price" id="detailDynamicPrice">${{ product.base_price }}</span>
+        {% if product.compare_price %}
+          <span class="price-compare" style="font-size: 18px;">${{ product.compare_price }}</span>
+          <span class="hero-meta-pill" style="font-size: 11px;">Save {{ product.discount_percent }}%</span>
+        {% endif %}
+      </div>
+
+      <p style="font-size: 15px; color: var(--store-text-muted); line-height: 1.6;">
+        {{ product.description }}
+      </p>
+
+      <!-- Interactive Variant Form -->
+      <form id="productDetailForm" data-product-id="{{ product.id }}" data-base-price="{{ product.base_price }}">
+        <input type="hidden" id="selectedVariantId" value="{% if variants.first %}{{ variants.first.id }}{% endif %}">
+
+        {% if variants.exists %}
+          <div class="variant-selector-box">
+            <div style="display: flex; justify-content: space-between; align-items: center;">
+              <span class="variant-label">Selection / Option:</span>
+              <strong id="selectedVariantNameLabel" style="font-size: 13px; color: var(--store-primary);">
+                {{ variants.first.name }}
+              </strong>
+            </div>
+
+            <!-- Check if variants have colors (Thread swatches) -->
+            {% if variants.first.color_hex %}
+              <div class="swatches-grid">
+                {% for v in variants %}
+                  <button 
+                    type="button" 
+                    class="swatch-btn {% if forloop.first %}active{% endif %}"
+                    data-variant-swatch
+                    data-variant-id="{{ v.id }}"
+                    data-variant-name="{{ v.name }}"
+                    data-price-adjustment="{{ v.price_adjustment }}"
+                    style="background-color: {{ v.color_hex }};"
+                    title="{{ v.name }}"
+                  ></button>
+                {% endfor %}
+              </div>
+            {% else %}
+              <!-- Gauge / Size buttons (Needles) -->
+              <div class="gauge-options-grid">
+                {% for v in variants %}
+                  <button 
+                    type="button" 
+                    class="gauge-option-btn {% if forloop.first %}active{% endif %}"
+                    data-variant-gauge
+                    data-variant-id="{{ v.id }}"
+                    data-variant-name="{{ v.name }}"
+                    data-price-adjustment="{{ v.price_adjustment }}"
+                  >
+                    {{ v.name }}
+                  </button>
+                {% endfor %}
+              </div>
+            {% endif %}
+          </div>
+        {% endif %}
+
+        <!-- Quantity & Add to Cart Action -->
+        <div class="add-to-cart-action-row">
+          <div class="quantity-stepper">
+            <button type="button" class="qty-btn" id="qtyMinus">-</button>
+            <input type="text" id="detailQuantity" value="1" readonly class="qty-input">
+            <button type="button" class="qty-btn" id="qtyPlus">+</button>
+          </div>
+
+          <button type="submit" class="btn-primary" style="flex-grow: 1; justify-content: center; padding: 14px 24px;">
+            <span>Add to Needlework Bag</span>
+            <span>→</span>
+          </button>
+        </div>
+      </form>
+
+      <!-- Specifications Table -->
+      {% if product.specs %}
+        <div style="margin-top: 20px;">
+          <h3 style="font-size: 16px; margin-bottom: 10px;">Artisan Specifications</h3>
+          <table class="specs-table">
+            <tbody>
+              {% for key, val in product.specs.items %}
+                <tr>
+                  <td>{{ key }}</td>
+                  <td><strong>{{ val }}</strong></td>
+                </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        </div>
+      {% endif %}
+
+      <div style="background: var(--store-surface-raised); padding: 14px 18px; border-radius: var(--store-radius); font-size: 13px; display: flex; gap: 10px; align-items: center; border: 1px solid var(--store-border);">
+        <span style="font-size: 20px;">🛡️</span>
+        <div>
+          <strong>Authenticity & Guild Guarantee:</strong>
+          <span style="color: var(--store-text-muted);"> Guaranteed burr-free needle eyes & tested tensile integrity. 30-day effortless return policy.</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Related Products -->
+  {% if related_products %}
+    <div style="margin-top: 80px; padding-top: 40px; border-top: 1px solid var(--store-border);">
+      <h2 style="font-size: 24px; margin-bottom: 24px;">You May Also Appreciate</h2>
+      <div class="products-grid">
+        {% for rel in related_products %}
+          <article class="product-card">
+            <div class="product-card-media">
+              <a href="{% url 'product_detail' slug=rel.slug %}">
+                <img src="{{ rel.image_url }}" alt="{{ rel.title }}" class="product-card-img" loading="lazy">
+              </a>
+            </div>
+            <div class="product-card-body">
+              <span class="product-card-category">{{ rel.category.name }}</span>
+              <a href="{% url 'product_detail' slug=rel.slug %}">
+                <h3 class="product-card-title">{{ rel.title }}</h3>
+              </a>
+              <div class="product-card-footer">
+                <span class="price-current">${{ rel.base_price }}</span>
+                <a href="{% url 'product_detail' slug=rel.slug %}" class="quick-add-btn">View</a>
+              </div>
+            </div>
+          </article>
+        {% endfor %}
+      </div>
+    </div>
+  {% endif %}
+</div>
+{% endblock %}

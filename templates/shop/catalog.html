@@ -1,0 +1,102 @@
+{% extends 'shop/base.html' %}
+{% load static %}
+
+{% block title %}All Products - {{ store_config.store_name }}{% endblock %}
+
+{% block content %}
+<div class="container" style="padding: 40px 20px 80px;">
+  <!-- Catalog Title Header -->
+  <div class="section-header">
+    <div>
+      <h1 class="section-title">Needlework Catalog</h1>
+      <p class="section-subtitle">
+        Showing {{ total_count }} artisan products
+        {% if selected_category %} in category <strong>{{ selected_category.name }}</strong>{% endif %}
+        {% if search_query %} matching "<em>{{ search_query }}</em>"{% endif %}
+      </p>
+    </div>
+  </div>
+
+  <!-- Interactive Filter & Search Bar -->
+  <div class="filter-bar">
+    <div class="filter-group-left">
+      <a href="{% url 'catalog' %}" class="filter-pill {% if not selected_category %}active{% endif %}">
+        All Categories
+      </a>
+      {% for cat in categories %}
+        <a href="{% url 'catalog' %}?category={{ cat.slug }}" class="filter-pill {% if selected_category.slug == cat.slug %}active{% endif %}">
+          {{ cat.icon }} {{ cat.name }}
+        </a>
+      {% endfor %}
+    </div>
+
+    <div class="filter-group-right">
+      <label class="filter-checkbox-label">
+        <input type="checkbox" id="catalogInStock" {% if in_stock_only %}checked{% endif %}>
+        <span>In Stock Only</span>
+      </label>
+
+      <select id="catalogSort" class="filter-select">
+        <option value="featured" {% if sort == 'featured' %}selected{% endif %}>Sort: Featured</option>
+        <option value="price_asc" {% if sort == 'price_asc' %}selected{% endif %}>Price: Low to High</option>
+        <option value="price_desc" {% if sort == 'price_desc' %}selected{% endif %}>Price: High to Low</option>
+        <option value="rating" {% if sort == 'rating' %}selected{% endif %}>Highest Rated</option>
+        <option value="newest" {% if sort == 'newest' %}selected{% endif %}>Newest Arrivals</option>
+      </select>
+    </div>
+  </div>
+
+  <!-- Product Grid -->
+  {% if products %}
+    <div class="products-grid">
+      {% for product in products %}
+        <article class="product-card">
+          <div class="product-card-media">
+            <a href="{% url 'product_detail' slug=product.slug %}">
+              <img src="{{ product.image_url }}" alt="{{ product.title }}" class="product-card-img" loading="lazy">
+            </a>
+            {% if product.badge %}
+              <span class="product-badge">{{ product.badge }}</span>
+            {% endif %}
+          </div>
+
+          <div class="product-card-body">
+            <span class="product-card-category">{{ product.category.name }}</span>
+            <a href="{% url 'product_detail' slug=product.slug %}">
+              <h3 class="product-card-title">{{ product.title }}</h3>
+            </a>
+            <p class="product-card-desc">{{ product.short_description }}</p>
+
+            <div class="product-card-footer">
+              <div class="price-box">
+                <span class="price-current">${{ product.base_price }}</span>
+                {% if product.compare_price %}
+                  <span class="price-compare">${{ product.compare_price }}</span>
+                {% endif %}
+              </div>
+
+              <button 
+                type="button" 
+                class="quick-add-btn"
+                data-quick-add
+                data-product-id="{{ product.id }}"
+                data-variant-id="{% if product.variants.first %}{{ product.variants.first.id }}{% endif %}"
+                title="Add to Bag"
+              >
+                <span>+ Add</span>
+              </button>
+            </div>
+          </div>
+        </article>
+      {% endfor %}
+    </div>
+  {% else %}
+    <div style="text-align: center; padding: 80px 20px; background: var(--store-surface); border: 1px solid var(--store-border); border-radius: var(--store-radius);">
+      <div style="font-size: 48px; margin-bottom: 16px;">🔍</div>
+      <h2>No products matched your criteria</h2>
+      <p style="color: var(--store-text-muted); margin: 8px 0 24px;">Try clearing your search query or selecting a different category filter.</p>
+      <a href="{% url 'catalog' %}" class="btn-primary">Clear All Filters</a>
+    </div>
+  {% endif %}
+</div>
+{% endblock %}

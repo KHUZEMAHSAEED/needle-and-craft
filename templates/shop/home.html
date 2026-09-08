@@ -1,0 +1,221 @@
+{% extends 'shop/base.html' %}
+{% load static %}
+
+{% block content %}
+<!-- ==========================================================================
+     HERO SECTION (DYNAMICALLY ADAPTING TO THE ACTIVE SAMPLE THEME)
+     ========================================================================== -->
+<section class="hero-section">
+  <div class="container hero-grid">
+    <div class="hero-content">
+      <div class="hero-meta-pill">
+        <span>✨ Sample Archetype #{{ current_theme.number }}</span>
+        <span>•</span>
+        <span>{{ current_theme.tag }}</span>
+      </div>
+
+      {% if active_theme == 'couture' %}
+        <h1 class="hero-title">Haute Couture Silk & Gilded Goldwork</h1>
+        <p class="hero-desc">
+          Supplying premier Paris ateliers with divisible French silk floss, 24k gold tambour hooks, and antique bullion wires forged for timeless couture embroidery.
+        </p>
+      {% elif active_theme == 'sashiko' %}
+        <h1 class="hero-title">Wabi-Sabi Visible Mending & Heavy Indigo</h1>
+        <p class="hero-desc">
+          Honoring the philosophy of mottainai. Authentic unmercerized Japanese cotton thread, tempered Hiroshima needles, and hand-stitched boro textures.
+        </p>
+      {% elif active_theme == 'quilter' %}
+        <h1 class="hero-title">Precision Quilting & Modern Studio Notions</h1>
+        <p class="hero-desc">
+          Engineered for laser-sharp piecing. Titanium-nitride machine needles, 50wt Egyptian long-staple cotton spools, and ergonomic rotary cutters.
+        </p>
+      {% elif active_theme == 'leathercraft' %}
+        <h1 class="hero-title">Heavy-Duty Harness Twine & Cobbler Awls</h1>
+        <p class="hero-desc">
+          Forged for relentless endurance. Irish beeswaxed braided linen, Redditch blunt harness needles, and sailmaker rigging supplies.
+        </p>
+      {% elif active_theme == 'botanical' %}
+        <h1 class="hero-title">Plant-Dyed Organic Silks & Heritage Linen</h1>
+        <p class="hero-desc">
+          Kettle-dyed in small artisan vats with madder root, indigo, and walnut husks. Pure biodegradable botanical threads free from synthetic chemicals.
+        </p>
+      {% elif active_theme == 'nordic' %}
+        <h1 class="hero-title">Nordic Wool & Scandinavian Crewelwork</h1>
+        <p class="hero-desc">
+          Pure virgin Scandinavian sheep fleece crewel skeins and Swedish blunt tapestry needles, bringing hygge warmth to every textured stitch.
+        </p>
+      {% elif active_theme == 'victorian' %}
+        <h1 class="hero-title">Victorian Filigree & Heirloom Chatelaines</h1>
+        <p class="hero-desc">
+          Ornate brass needle vaults, bone tatting shuttles, and Sheffield stork shears cast from authentic 19th-century parlor engravings.
+        </p>
+      {% elif active_theme == 'neontuft' %}
+        <h1 class="hero-title">Punch Needle & High-Energy Rug Tufting</h1>
+        <p class="hero-desc">
+          Ergonomic Vermont maple punch needles, electric acrylic tufting yarns, and heavy monk cloth for the new wave of kinetic fiber artists.
+        </p>
+      {% elif active_theme == 'precision' %}
+        <h1 class="hero-title">Industrial Micro-Needles & Ballistic Thread</h1>
+        <p class="hero-desc">
+          GEBEDUR titanium DBx1 machine needles rated for 6,000 stitches per minute, paired with bonded nylon 69 and high-tensile Kevlar cord.
+        </p>
+      {% else %}
+        <h1 class="hero-title">Bohemian Tapestry Weft & Macramé Cord</h1>
+        <p class="hero-desc">
+          Buttery unbleached single-twist Turkish cotton rope, sunbaked natural dye palettes, and carved maple shuttles for fiber art wall hangings.
+        </p>
+      {% endif %}
+
+      <div class="hero-cta-group">
+        <a href="{% url 'catalog' %}" class="btn-primary">
+          <span>Explore {{ current_theme.name }} Collection</span>
+          <span>→</span>
+        </a>
+        <a href="#featured" class="btn-secondary">
+          <span>View Bestsellers</span>
+        </a>
+      </div>
+    </div>
+
+    <div class="hero-media-wrapper">
+      <div class="hero-image-frame">
+        {% if active_theme == 'couture' %}
+          <img src="https://images.unsplash.com/photo-1617038260897-41a1f14a8ca0?auto=format&fit=crop&w=800&q=80" alt="Haute Couture Threads">
+        {% elif active_theme == 'sashiko' %}
+          <img src="https://images.unsplash.com/photo-1579783902614-a3fb3927b675?auto=format&fit=crop&w=800&q=80" alt="Sashiko Indigo Thread">
+        {% elif active_theme == 'quilter' %}
+          <img src="https://images.unsplash.com/photo-1584992236310-6edddc08acff?auto=format&fit=crop&w=800&q=80" alt="Quilting Thread Spools">
+        {% elif active_theme == 'leathercraft' %}
+          <img src="https://images.unsplash.com/photo-1544816155-12df9643f363?auto=format&fit=crop&w=800&q=80" alt="Leathercraft Tools and Thread">
+        {% elif active_theme == 'botanical' %}
+          <img src="https://images.unsplash.com/photo-1544441893-675973e31985?auto=format&fit=crop&w=800&q=80" alt="Naturally Dyed Silk">
+        {% elif active_theme == 'nordic' %}
+          <img src="https://images.unsplash.com/photo-1584992236310-6edddc08acff?auto=format&fit=crop&w=800&q=80" alt="Nordic Wool Yarn">
+        {% elif active_theme == 'victorian' %}
+          <img src="https://images.unsplash.com/photo-1520072959219-c595dc870360?auto=format&fit=crop&w=800&q=80" alt="Victorian Antique Scissors and Needle Case">
+        {% elif active_theme == 'neontuft' %}
+          <img src="https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?auto=format&fit=crop&w=800&q=80" alt="Modern Punch Needle Art">
+        {% elif active_theme == 'precision' %}
+          <img src="https://images.unsplash.com/photo-1581092160607-ee22621dd758?auto=format&fit=crop&w=800&q=80" alt="Precision Industrial Machinery">
+        {% else %}
+          <img src="https://images.unsplash.com/photo-1590736969955-71cc94801759?auto=format&fit=crop&w=800&q=80" alt="Boho Macramé Cord">
+        {% endif %}
+      </div>
+
+      <div class="hero-floating-card">
+        <div class="hero-floating-icon">🪡</div>
+        <div class="hero-floating-text">
+          <h4>Guaranteed Guild Quality</h4>
+          <p>Micro-inspected points & certified tensile strength</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ==========================================================================
+     CATEGORY QUICK BROWSE
+     ========================================================================== -->
+<div class="container category-row">
+  <div class="category-scroll">
+    {% for cat in categories|slice:":5" %}
+      <a href="{% url 'catalog' %}?category={{ cat.slug }}" class="category-chip-card">
+        <div class="category-chip-icon">{{ cat.icon }}</div>
+        <div class="category-chip-info">
+          <h4>{{ cat.name }}</h4>
+          <span>{{ cat.products.count }} Products</span>
+        </div>
+      </a>
+    {% endfor %}
+  </div>
+</div>
+
+<!-- ==========================================================================
+     FEATURED PRODUCTS SHOWCASE
+     ========================================================================== -->
+<section class="container catalog-section" id="featured">
+  <div class="section-header">
+    <div>
+      <h2 class="section-title">Curated Merchant Selection</h2>
+      <p class="section-subtitle">Exemplary threads and precision needles favored by master artisans worldwide</p>
+    </div>
+    <a href="{% url 'catalog' %}" style="font-weight: 700; color: var(--store-primary); font-size: 14px;">
+      Browse All Products →
+    </a>
+  </div>
+
+  <div class="products-grid">
+    {% for product in featured_products %}
+      <article class="product-card">
+        <div class="product-card-media">
+          <a href="{% url 'product_detail' slug=product.slug %}">
+            <img src="{{ product.image_url }}" alt="{{ product.title }}" class="product-card-img" loading="lazy">
+          </a>
+          {% if product.badge %}
+            <span class="product-badge">{{ product.badge }}</span>
+          {% endif %}
+        </div>
+
+        <div class="product-card-body">
+          <span class="product-card-category">{{ product.category.name }}</span>
+          <a href="{% url 'product_detail' slug=product.slug %}">
+            <h3 class="product-card-title">{{ product.title }}</h3>
+          </a>
+          <p class="product-card-desc">{{ product.short_description }}</p>
+
+          <div class="product-card-footer">
+            <div class="price-box">
+              <span class="price-current">${{ product.base_price }}</span>
+              {% if product.compare_price %}
+                <span class="price-compare">${{ product.compare_price }}</span>
+              {% endif %}
+            </div>
+
+            <button 
+              type="button" 
+              class="quick-add-btn"
+              data-quick-add
+              data-product-id="{{ product.id }}"
+              data-variant-id="{% if product.variants.first %}{{ product.variants.first.id }}{% endif %}"
+              title="Add to Bag"
+            >
+              <span>+ Add</span>
+            </button>
+          </div>
+        </div>
+      </article>
+    {% endfor %}
+  </div>
+</section>
+
+<!-- ==========================================================================
+     ARTISAN VALUES & PROMO BANNER
+     ========================================================================== -->
+<section style="background: var(--store-surface); border-top: 1px solid var(--store-border); padding: 60px 0;">
+  <div class="container" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 30px;">
+    <div style="background: var(--store-surface-raised); padding: 24px; border-radius: var(--store-radius); border: 1px solid var(--store-border);">
+      <div style="font-size: 28px; margin-bottom: 12px;">🪡</div>
+      <h4 style="font-size: 16px; margin-bottom: 6px;">Micro-Inspected Needles</h4>
+      <p style="font-size: 13px; color: var(--store-text-muted); line-height: 1.6;">
+        Every hand and machine needle undergoes optical inspection to ensure burr-free eyes and flawless points that will not snag silk or canvas.
+      </p>
+    </div>
+
+    <div style="background: var(--store-surface-raised); padding: 24px; border-radius: var(--store-radius); border: 1px solid var(--store-border);">
+      <div style="font-size: 28px; margin-bottom: 12px;">🧵</div>
+      <h4 style="font-size: 16px; margin-bottom: 6px;">Zero-Lint Fiber Integrity</h4>
+      <p style="font-size: 13px; color: var(--store-text-muted); line-height: 1.6;">
+        From 100% Giza Egyptian cotton to pure mulberry Lyon silk, our threads deliver high tensile reliability and whisper-smooth glide.
+      </p>
+    </div>
+
+    <div style="background: var(--store-surface-raised); padding: 24px; border-radius: var(--store-radius); border: 1px solid var(--store-border);">
+      <div style="font-size: 28px; margin-bottom: 12px;">📦</div>
+      <h4 style="font-size: 16px; margin-bottom: 6px;">Express Atelier Courier</h4>
+      <p style="font-size: 13px; color: var(--store-text-muted); line-height: 1.6;">
+        Secure protective packing in humidity-controlled pouches. Complimentary tracked shipping on all orders exceeding $50.
+      </p>
+    </div>
+  </div>
+</section>
+{% endblock %}

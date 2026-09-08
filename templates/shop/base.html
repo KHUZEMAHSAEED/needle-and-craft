@@ -1,0 +1,119 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en" data-theme="{{ active_theme }}">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{% block title %}{{ store_config.store_name }} - {{ store_config.tagline }}{% endblock %}</title>
+  <meta name="description" content="Artisan needles, luxury threads, embroidery floss, and fine haberdashery notions.">
+  <link rel="stylesheet" href="{% static 'css/themes.css' %}">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🧵</text></svg>">
+  {% block extra_head %}{% endblock %}
+</head>
+<body>
+
+  <!-- ==========================================================================
+       INTERACTIVE LIVE DEMO THEME SWITCHER BAR (10 FRONT-END SAMPLES)
+       ========================================================================== -->
+  <div class="demo-theme-bar">
+    <div class="demo-theme-container">
+      <div class="demo-theme-title">
+        <span>🎨 Front-End Samples:</span>
+        <span class="demo-theme-badge">10 Archetypes Available</span>
+      </div>
+
+      <div class="demo-theme-chips">
+        {% for theme in theme_samples %}
+          <button 
+            type="button" 
+            class="theme-chip {% if active_theme == theme.id %}active{% endif %}"
+            data-theme="{{ theme.id }}"
+            data-name="{{ theme.name }}"
+            title="{{ theme.subtitle }} - {{ theme.niche }}"
+          >
+            <span class="theme-chip-dot" style="background: {{ theme.primary_color }};"></span>
+            <span>#{{ theme.number }} {{ theme.name }}</span>
+          </button>
+        {% endfor %}
+      </div>
+
+      <div class="demo-theme-actions">
+        <a href="{% url 'store_admin' %}" class="admin-link-btn" title="Open Merchant Store Dashboard">
+          ⚙️ Merchant Admin
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <!-- Announcement Bar -->
+  {% if store_config.announcement_text %}
+    <div class="announcement-bar">
+      {{ store_config.announcement_text }}
+    </div>
+  {% endif %}
+
+  <!-- Main Navigation -->
+  <header class="navbar">
+    <div class="container navbar-inner">
+      <a href="{% url 'home' %}" class="brand-logo">
+        <div class="brand-symbol">🪡</div>
+        <div class="brand-info">
+          <h2>{{ store_config.store_name }}</h2>
+          <p>{{ current_theme.tag }} • {{ store_config.tagline }}</p>
+        </div>
+      </a>
+
+      <nav>
+        <ul class="nav-links">
+          <li><a href="{% url 'home' %}" class="nav-link">Home</a></li>
+          <li><a href="{% url 'catalog' %}" class="nav-link">Full Catalog</a></li>
+          <li><a href="{% url 'catalog' %}?category=couture-silk" class="nav-link">Silks</a></li>
+          <li><a href="{% url 'catalog' %}?category=sashiko-mending" class="nav-link">Sashiko</a></li>
+          <li><a href="{% url 'catalog' %}?category=quilting-notions" class="nav-link">Needles</a></li>
+        </ul>
+      </nav>
+
+      <div class="nav-actions">
+        <form action="{% url 'catalog' %}" method="GET" class="search-mini-form">
+          <span class="search-mini-icon">🔍</span>
+          <input type="text" name="q" placeholder="Search threads, needles..." class="search-mini-input" value="{{ request.GET.q }}">
+        </form>
+
+        <button type="button" class="cart-toggle-btn" data-cart-open>
+          <span>Bag</span>
+          <span class="cart-count-badge">{{ cart_count }}</span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main View Content -->
+  <main>
+    {% block content %}{% endblock %}
+  </main>
+
+  <!-- Slide-in Interactive Cart Drawer -->
+  {% include 'shop/cart_drawer.html' %}
+
+  <!-- Toast Notification Container -->
+  <div class="toast-container"></div>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="container footer-inner">
+      <div>
+        <p><strong>{{ store_config.store_name }}</strong> • Independent Needle & Thread Merchant</p>
+        <p style="margin-top: 4px; font-size: 12px;">Currently displaying sample archetype: <strong>{{ current_theme.name }}</strong> ({{ current_theme.subtitle }})</p>
+      </div>
+      <div style="display: flex; gap: 20px; align-items: center;">
+        <span>{{ store_config.contact_email }}</span>
+        <span>{{ store_config.contact_phone }}</span>
+        <a href="{% url 'store_admin' %}" style="text-decoration: underline;">Merchant Control Panel</a>
+      </div>
+    </div>
+  </footer>
+
+  <script src="{% static 'js/app.js' %}"></script>
+  {% block extra_js %}{% endblock %}
+</body>
+</html>

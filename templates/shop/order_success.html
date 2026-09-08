@@ -1,0 +1,110 @@
+{% extends 'shop/base.html' %}
+{% load static %}
+
+{% block title %}Order Confirmed #{{ order.order_number }} - {{ store_config.store_name }}{% endblock %}
+
+{% block content %}
+<div class="container">
+  <div class="success-card">
+    <div class="success-badge-icon">✓</div>
+    <span class="hero-meta-pill" style="margin-bottom: 8px;">Order Confirmed & Received</span>
+    <h1 style="font-size: 28px; margin-bottom: 8px;">Thank You, {{ order.customer_name }}</h1>
+    <p style="color: var(--store-text-muted); font-size: 14px;">
+      Your needlework parcel is being carefully assembled and packed. A receipt has been generated below.
+    </p>
+
+    <!-- Interactive 4-Stage Live Order Stepper -->
+    <div class="order-stepper">
+      <div class="step-item active">
+        <div class="step-circle">1</div>
+        <span class="step-label">Placed</span>
+      </div>
+      <div class="step-item {% if order.status != 'pending' %}active{% endif %}">
+        <div class="step-circle">2</div>
+        <span class="step-label">Assembling</span>
+      </div>
+      <div class="step-item {% if order.status == 'shipped' or order.status == 'delivered' %}active{% endif %}">
+        <div class="step-circle">3</div>
+        <span class="step-label">Dispatched</span>
+      </div>
+      <div class="step-item {% if order.status == 'delivered' %}active{% endif %}">
+        <div class="step-circle">4</div>
+        <span class="step-label">Delivered</span>
+      </div>
+    </div>
+
+    <div style="background: var(--store-surface-raised); border: 1px solid var(--store-border); border-radius: var(--store-radius); padding: 16px; display: flex; justify-content: space-around; flex-wrap: wrap; gap: 12px; margin-bottom: 28px; text-align: left;">
+      <div>
+        <span style="font-size: 11px; color: var(--store-text-muted); text-transform: uppercase;">Order Number</span>
+        <div style="font-weight: 800; font-size: 14px;">{{ order.order_number }}</div>
+      </div>
+      <div>
+        <span style="font-size: 11px; color: var(--store-text-muted); text-transform: uppercase;">Live Courier Tracking</span>
+        <div style="font-weight: 800; font-size: 14px; color: var(--store-primary);">{{ order.tracking_number }}</div>
+      </div>
+      <div>
+        <span style="font-size: 11px; color: var(--store-text-muted); text-transform: uppercase;">Payment Status</span>
+        <div style="font-weight: 800; font-size: 14px; color: #10b981;">Authorized & Confirmed</div>
+      </div>
+    </div>
+
+    <!-- Items Summary Table -->
+    <div style="text-align: left; margin-bottom: 24px;">
+      <h3 style="font-size: 16px; margin-bottom: 12px;">Dispatched Items</h3>
+      <table class="specs-table" style="background: var(--store-surface);">
+        <thead>
+          <tr style="background: var(--store-surface-raised);">
+            <th style="padding: 10px 14px; text-align: left; font-size: 12px;">Item</th>
+            <th style="padding: 10px 14px; text-align: center; font-size: 12px;">Qty</th>
+            <th style="padding: 10px 14px; text-align: right; font-size: 12px;">Amount</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for item in order.items.all %}
+            <tr>
+              <td>
+                <strong>{{ item.product_title }}</strong>
+                {% if item.variant_name %}
+                  <div style="font-size: 12px; color: var(--store-text-muted);">{{ item.variant_name }}</div>
+                {% endif %}
+              </td>
+              <td style="text-align: center;">{{ item.quantity }}</td>
+              <td style="text-align: right; font-weight: 700;">${{ item.total_price|floatformat:2 }}</td>
+            </tr>
+          {% endfor %}
+          <tr>
+            <td colspan="2" style="text-align: right; color: var(--store-text-muted);">Subtotal:</td>
+            <td style="text-align: right;">${{ order.subtotal|floatformat:2 }}</td>
+          </tr>
+          {% if order.discount_amount > 0 %}
+            <tr>
+              <td colspan="2" style="text-align: right; color: #10b981;">Discount Applied:</td>
+              <td style="text-align: right; color: #10b981;">-${{ order.discount_amount|floatformat:2 }}</td>
+            </tr>
+          {% endif %}
+          <tr>
+            <td colspan="2" style="text-align: right; color: var(--store-text-muted);">Courier Shipping:</td>
+            <td style="text-align: right;">{% if order.shipping_cost == 0 %}FREE{% else %}${{ order.shipping_cost|floatformat:2 }}{% endif %}</td>
+          </tr>
+          <tr style="font-size: 16px;">
+            <td colspan="2" style="text-align: right; font-weight: 800;">Total Paid:</td>
+            <td style="text-align: right; font-weight: 800; color: var(--store-primary);">${{ order.total_amount|floatformat:2 }}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- Destination Address -->
+    <div style="text-align: left; background: var(--store-surface-raised); border: 1px solid var(--store-border); padding: 16px; border-radius: var(--store-radius); margin-bottom: 28px; font-size: 13px;">
+      <h4 style="margin-bottom: 6px;">Shipping Destination:</h4>
+      <p>{{ order.customer_name }} • {{ order.customer_phone }}</p>
+      <p>{{ order.shipping_address }}, {{ order.city }} {{ order.postal_code }}, {{ order.country }}</p>
+    </div>
+
+    <div style="display: flex; gap: 14px; justify-content: center;">
+      <button type="button" class="btn-secondary" onclick="window.print();">🖨️ Print Receipt</button>
+      <a href="{% url 'catalog' %}" class="btn-primary">Continue Shopping →</a>
+    </div>
+  </div>
+</div>
+{% endblock %}

@@ -1,0 +1,155 @@
+from .models import StoreConfig
+from .cart import Cart
+
+
+THEME_SAMPLES = [
+    {
+        'id': 'couture',
+        'number': 1,
+        'name': 'Atelier Couture',
+        'subtitle': 'Haute Couture French Haberdashery',
+        'niche': 'Silk Floss, Goldwork, Tambour Needles',
+        'tag': 'Luxury Dark Luxe',
+        'primary_color': '#D4AF37',
+        'accent_color': '#E5C158',
+        'bg_preview': '#0D0F12',
+        'font_family': 'Playfair Display, serif',
+    },
+    {
+        'id': 'sashiko',
+        'number': 2,
+        'name': 'Wabi-Sabi Sashiko',
+        'subtitle': 'Japanese Visible Mending & Boro',
+        'niche': 'Indigo Heavy Thread, Palm Thimbles',
+        'tag': 'Zen Organic Mending',
+        'primary_color': '#1B3B6F',
+        'accent_color': '#D97757',
+        'bg_preview': '#F7F4EE',
+        'font_family': 'Outfit, sans-serif',
+    },
+    {
+        'id': 'quilter',
+        'number': 3,
+        'name': 'Modern Quilter Studio',
+        'subtitle': 'Contemporary Sewing & Notions Hub',
+        'niche': 'Titanium Needles, 50wt Cotton, Rotary Cutters',
+        'tag': 'Vibrant Maker Studio',
+        'primary_color': '#FF6B6B',
+        'accent_color': '#2EC4B6',
+        'bg_preview': '#FFFFFF',
+        'font_family': 'Plus Jakarta Sans, sans-serif',
+    },
+    {
+        'id': 'leathercraft',
+        'number': 4,
+        'name': 'Heritage Leathercraft',
+        'subtitle': 'Heavy Industrial Workshop & Sailmaker',
+        'niche': 'Waxed Harness Twine, Cobbler Awls',
+        'tag': 'Rugged Industrial',
+        'primary_color': '#8B4513',
+        'accent_color': '#C69214',
+        'bg_preview': '#22252A',
+        'font_family': 'Space Grotesk, sans-serif',
+    },
+    {
+        'id': 'botanical',
+        'number': 5,
+        'name': 'Botanical Dyehouse',
+        'subtitle': 'Organic Plant-Dyed Natural Fibers',
+        'niche': 'Madder & Indigo Dyed Silks, Linen Thread',
+        'tag': 'Earthy Natural Eco',
+        'primary_color': '#4F772D',
+        'accent_color': '#BC4749',
+        'bg_preview': '#FAF8F5',
+        'font_family': 'Fraunces, serif',
+    },
+    {
+        'id': 'nordic',
+        'number': 6,
+        'name': 'Nordic Wool & Crewel',
+        'subtitle': 'Scandinavian Minimalist Hygge',
+        'niche': 'Organic Crewel Wool, Tapestry Needles',
+        'tag': 'Clean Scandi Hygge',
+        'primary_color': '#2B4C7E',
+        'accent_color': '#D64550',
+        'bg_preview': '#F0F4F8',
+        'font_family': 'Plus Jakarta Sans, sans-serif',
+    },
+    {
+        'id': 'victorian',
+        'number': 7,
+        'name': 'Victorian Haberdashery',
+        'subtitle': '19th Century Antique Parlor & Lace',
+        'niche': 'Filigree Needle Cases, Tatting Shuttles',
+        'tag': 'Vintage Antique Etching',
+        'primary_color': '#581825',
+        'accent_color': '#B8860B',
+        'bg_preview': '#F4ECD8',
+        'font_family': 'Cinzel, serif',
+    },
+    {
+        'id': 'neontuft',
+        'number': 8,
+        'name': 'Neon Tuft & Punch',
+        'subtitle': 'Gen-Z Modern Fiber Art & Rug Punch',
+        'niche': 'Punch Needles, Chunky Tufting Yarn',
+        'tag': 'Cyber Neo-Brutalist',
+        'primary_color': '#B4F82C',
+        'accent_color': '#8338EC',
+        'bg_preview': '#12131C',
+        'font_family': 'Syne, sans-serif',
+    },
+    {
+        'id': 'precision',
+        'number': 9,
+        'name': 'Precision Micro-Needle',
+        'subtitle': 'High-Tech Industrial & Machine Embroidery',
+        'niche': 'Groz-Beckert DBx1, Kevlar & Bonded Nylon',
+        'tag': 'High-Tech Technical',
+        'primary_color': '#06B6D4',
+        'accent_color': '#3B82F6',
+        'bg_preview': '#F8FAFC',
+        'font_family': 'Space Grotesk, sans-serif',
+    },
+    {
+        'id': 'boho',
+        'number': 10,
+        'name': 'Boho Tapestry & Weft',
+        'subtitle': 'Artisan Fiber Weaving & Macramé',
+        'niche': 'Unbleached Macramé Cord, Weaving Shuttles',
+        'tag': 'Bohemian Warm Craft',
+        'primary_color': '#D9822B',
+        'accent_color': '#B3545A',
+        'bg_preview': '#FCF8F5',
+        'font_family': 'Outfit, sans-serif',
+    },
+]
+
+THEME_MAP = {t['id']: t for t in THEME_SAMPLES}
+
+
+def shop_context(request):
+    config = StoreConfig.get_solo()
+    
+    # Priority: 1) URL query param (?theme=...), 2) Session preference, 3) Config default
+    requested_theme = request.GET.get('theme')
+    if requested_theme and requested_theme in THEME_MAP:
+        request.session['active_theme'] = requested_theme
+        active_theme_key = requested_theme
+    else:
+        active_theme_key = request.session.get('active_theme', config.active_theme)
+
+    if active_theme_key not in THEME_MAP:
+        active_theme_key = 'couture'
+
+    current_theme_info = THEME_MAP.get(active_theme_key, THEME_SAMPLES[0])
+    cart = Cart(request)
+
+    return {
+        'store_config': config,
+        'active_theme': active_theme_key,
+        'current_theme': current_theme_info,
+        'theme_samples': THEME_SAMPLES,
+        'cart': cart,
+        'cart_count': cart.total_count,
+    }

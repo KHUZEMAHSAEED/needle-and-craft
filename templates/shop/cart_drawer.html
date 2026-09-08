@@ -1,0 +1,78 @@
+<div class="cart-overlay" id="cartOverlay">
+  <aside class="cart-drawer" id="cartDrawer">
+    <div class="cart-drawer-header">
+      <h3>Your Needlework Bag</h3>
+      <button type="button" class="cart-close-btn" id="cartCloseBtn">&times;</button>
+    </div>
+
+    <div class="cart-free-shipping-banner">
+      {% if cart.get_subtotal >= 50 %}
+        <span>🎉 You have qualified for <strong>FREE Complimentary Worldwide Shipping</strong>!</span>
+      {% else %}
+        <span>Add <strong>${{ cart.get_subtotal|floatformat:2 }} / $50.00</strong> to unlock free worldwide courier delivery!</span>
+      {% endif %}
+    </div>
+
+    <div class="cart-drawer-body">
+      <div id="cartDrawerItems">
+        {% for item in cart %}
+          <div class="cart-item-row" data-key="{{ item.key }}">
+            <img src="{{ item.image_url }}" alt="{{ item.title }}" class="cart-item-thumb">
+            <div class="cart-item-details">
+              <a href="{% url 'product_detail' slug=item.slug %}" class="cart-item-title">{{ item.title }}</a>
+              {% if item.variant_name %}
+                <span class="cart-item-variant">{{ item.variant_name }}</span>
+              {% endif %}
+              <div class="cart-item-price">${{ item.unit_price_decimal|floatformat:2 }}</div>
+              <div class="cart-item-bottom">
+                <div class="quantity-stepper" style="transform: scale(0.9); transform-origin: left;">
+                  <button type="button" class="qty-btn" onclick="updateItemQuantity('{{ item.key }}', {{ item.quantity|add:'-1' }})">-</button>
+                  <span class="qty-input" style="line-height: 38px;">{{ item.quantity }}</span>
+                  <button type="button" class="qty-btn" onclick="updateItemQuantity('{{ item.key }}', {{ item.quantity|add:'1' }})">+</button>
+                </div>
+                <button type="button" class="cart-item-remove-btn" onclick="removeItemFromCart('{{ item.key }}')">Remove</button>
+              </div>
+            </div>
+          </div>
+        {% empty %}
+          <div id="cartEmptyMessage" style="text-align: center; padding: 40px 10px; color: var(--store-text-muted);">
+            <div style="font-size: 40px; margin-bottom: 12px;">🧵</div>
+            <h4>Your bag is currently empty</h4>
+            <p style="font-size: 13px; margin-top: 6px;">Discover our artisan threads, hand-forged needles, and notions.</p>
+            <a href="{% url 'catalog' %}" class="btn-primary" style="margin-top: 18px; padding: 10px 20px; font-size: 13px;">Explore Catalog</a>
+          </div>
+        {% endfor %}
+      </div>
+    </div>
+
+    <div class="cart-drawer-footer" id="cartDrawerFooter" {% if cart.is_empty %}style="display: none;"{% endif %}>
+      <form class="cart-coupon-form" id="cartCouponForm" onsubmit="return false;">
+        <input type="text" id="cartCouponInput" placeholder="Promo code (e.g. NEEDLE15)" class="cart-coupon-input" value="{{ cart.coupon_code|default:'' }}">
+        <button type="button" id="cartApplyCouponBtn" class="cart-coupon-btn">Apply</button>
+      </form>
+
+      <div class="cart-totals-list">
+        <div class="cart-total-line">
+          <span>Subtotal</span>
+          <span id="cartSubtotal">${{ cart.get_subtotal|floatformat:2 }}</span>
+        </div>
+        <div class="cart-total-line" id="cartDiscountRow" {% if cart.get_discount == 0 %}style="display: none;"{% endif %}>
+          <span style="color: #10b981;">Coupon Savings</span>
+          <span id="cartDiscount" style="color: #10b981;">-${{ cart.get_discount|floatformat:2 }}</span>
+        </div>
+        <div class="cart-total-line">
+          <span>Courier Shipping</span>
+          <span id="cartShipping">{% if cart.get_shipping == 0 %}FREE{% else %}${{ cart.get_shipping|floatformat:2 }}{% endif %}</span>
+        </div>
+        <div class="cart-total-line grand-total">
+          <span>Total</span>
+          <span id="cartTotal">${{ cart.get_total|floatformat:2 }}</span>
+        </div>
+      </div>
+
+      <a href="{% url 'checkout' %}" class="btn-primary" style="text-align: center; justify-content: center; width: 100%;">
+        Proceed to Secure Checkout →
+      </a>
+    </div>
+  </aside>
+</div>

@@ -1,0 +1,168 @@
+{% extends 'shop/base.html' %}
+{% load static %}
+
+{% block title %}Merchant Store Control Panel - {{ store_config.store_name }}{% endblock %}
+
+{% block content %}
+<div class="container admin-panel-layout">
+  <div class="section-header">
+    <div>
+      <h1 class="section-title">Merchant Control Panel</h1>
+      <p class="section-subtitle">
+        Manage your store branding, choose your active front-end theme sample, and fulfill orders.
+      </p>
+    </div>
+    <a href="{% url 'home' %}" class="btn-secondary">← View Storefront</a>
+  </div>
+
+  {% if messages %}
+    {% for message in messages %}
+      <div style="background: rgba(16, 185, 129, 0.15); border: 1px solid #10b981; color: #10b981; padding: 12px 18px; border-radius: var(--store-radius); margin-bottom: 24px; font-weight: 600;">
+        {{ message }}
+      </div>
+    {% endfor %}
+  {% endif %}
+
+  <!-- Quick Analytics Summary -->
+  <div class="admin-stat-cards">
+    <div class="stat-card">
+      <h4>Gross Revenue</h4>
+      <div class="stat-value">${{ total_revenue|floatformat:2 }}</div>
+      <span style="font-size: 12px; color: var(--store-text-muted);">From completed orders</span>
+    </div>
+    <div class="stat-card">
+      <h4>Total Orders</h4>
+      <div class="stat-value">{{ total_orders }}</div>
+      <span style="font-size: 12px; color: var(--store-text-muted);">Recorded transactions</span>
+    </div>
+    <div class="stat-card">
+      <h4>Active Products</h4>
+      <div class="stat-value">{{ total_products }}</div>
+      <span style="font-size: 12px; color: var(--store-text-muted);">In needlework catalog</span>
+    </div>
+    <div class="stat-card">
+      <h4>Active Theme</h4>
+      <div class="stat-value" style="font-size: 20px; text-transform: capitalize;">{{ current_theme.name }}</div>
+      <span style="font-size: 12px; color: var(--store-text-muted);">Sample Archetype #{{ current_theme.number }}</span>
+    </div>
+  </div>
+
+  <!-- Store Settings & Theme Picker -->
+  <div class="checkout-box" style="margin-bottom: 40px;">
+    <h3 style="font-size: 18px; margin-bottom: 6px;">Front-End Theme Sample Selector & Store Customizer</h3>
+    <p style="font-size: 13px; color: var(--store-text-muted); margin-bottom: 20px;">
+      Select which of the 10 front-end sample archetypes you want as your permanent store theme.
+    </p>
+
+    <form method="POST" action="{% url 'store_admin' %}">
+      {% csrf_token %}
+      <input type="hidden" name="action" value="update_settings">
+
+      <div class="theme-picker-grid">
+        {% for theme in theme_choices %}
+          <label class="theme-pick-card {% if config.active_theme == theme.id %}active{% endif %}">
+            <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 6px;">
+              <div style="display: flex; align-items: center; gap: 8px;">
+                <span class="theme-chip-dot" style="background: {{ theme.primary_color }};"></span>
+                <strong>#{{ theme.number }} {{ theme.name }}</strong>
+              </div>
+              <input type="radio" name="active_theme" value="{{ theme.id }}" {% if config.active_theme == theme.id %}checked{% endif %}>
+            </div>
+            <p style="font-size: 12px; color: var(--store-text-muted);">{{ theme.subtitle }}</p>
+            <div style="margin-top: 8px; font-size: 11px; display: inline-block; padding: 2px 8px; background: var(--store-surface); border-radius: 4px;">
+              Focus: {{ theme.niche }}
+            </div>
+          </label>
+        {% endfor %}
+      </div>
+
+      <div class="form-grid" style="margin-top: 30px;">
+        <div>
+          <label class="form-label">Store Brand Name</label>
+          <input type="text" name="store_name" class="form-control" value="{{ config.store_name }}">
+        </div>
+        <div>
+          <label class="form-label">Store Tagline</label>
+          <input type="text" name="tagline" class="form-control" value="{{ config.tagline }}">
+        </div>
+        <div class="form-group-full">
+          <label class="form-label">Announcement Banner Text</label>
+          <input type="text" name="announcement_text" class="form-control" value="{{ config.announcement_text }}">
+        </div>
+      </div>
+
+      <button type="submit" class="btn-primary" style="margin-top: 24px;">
+        Save Store Theme & Branding Settings
+      </button>
+    </form>
+  </div>
+
+  <!-- Orders Fulfillment Management -->
+  <div class="checkout-box">
+    <h3 style="font-size: 18px; margin-bottom: 6px;">Recent Customer Orders</h3>
+    <p style="font-size: 13px; color: var(--store-text-muted); margin-bottom: 16px;">
+      View incoming orders and update delivery fulfillment statuses.
+    </p>
+
+    <div style="overflow-x: auto;">
+      <table class="orders-table">
+        <thead>
+          <tr>
+            <th>Order #</th>
+            <th>Customer</th>
+            <th>Items</th>
+            <th>Total</th>
+            <th>Payment</th>
+            <th>Status</th>
+            <th>Update Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for ord in orders %}
+            <tr>
+              <td>
+                <a href="{% url 'order_success' order_number=ord.order_number %}" style="font-weight: 700; color: var(--store-primary); text-decoration: underline;">
+                  {{ ord.order_number }}
+                </a>
+                <div style="font-size: 11px; color: var(--store-text-muted);">{{ ord.created_at|date:"M d, Y" }}</div>
+              </td>
+              <td>
+                <strong>{{ ord.customer_name }}</strong>
+                <div style="font-size: 11px; color: var(--store-text-muted);">{{ ord.customer_email }}</div>
+              </td>
+              <td>{{ ord.items.count }} item(s)</td>
+              <td><strong>${{ ord.total_amount }}</strong></td>
+              <td style="text-transform: capitalize;">{{ ord.payment_method }}</td>
+              <td>
+                <span class="hero-meta-pill" style="font-size: 10px;">
+                  {{ ord.get_status_display }}
+                </span>
+              </td>
+              <td>
+                <form method="POST" action="{% url 'store_admin' %}" style="display: flex; gap: 6px;">
+                  {% csrf_token %}
+                  <input type="hidden" name="action" value="update_order_status">
+                  <input type="hidden" name="order_id" value="{{ ord.id }}">
+                  <select name="status" class="filter-select" style="padding: 4px 8px; font-size: 12px;">
+                    <option value="pending" {% if ord.status == 'pending' %}selected{% endif %}>Pending</option>
+                    <option value="confirmed" {% if ord.status == 'confirmed' %}selected{% endif %}>Confirmed</option>
+                    <option value="shipped" {% if ord.status == 'shipped' %}selected{% endif %}>Shipped</option>
+                    <option value="delivered" {% if ord.status == 'delivered' %}selected{% endif %}>Delivered</option>
+                  </select>
+                  <button type="submit" class="quick-add-btn" style="padding: 4px 10px; font-size: 11px;">Update</button>
+                </form>
+              </td>
+            </tr>
+          {% empty %}
+            <tr>
+              <td colspan="7" style="text-align: center; padding: 30px; color: var(--store-text-muted);">
+                No customer orders recorded yet.
+              </td>
+            </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+{% endblock %}

@@ -1,0 +1,149 @@
+{% extends 'shop/base.html' %}
+{% load static %}
+
+{% block title %}Checkout - {{ store_config.store_name }}{% endblock %}
+
+{% block content %}
+<div class="container checkout-grid">
+  <!-- Checkout Details Form -->
+  <div class="checkout-box">
+    <h1 style="font-size: 26px; margin-bottom: 8px;">Artisan Courier Checkout</h1>
+    <p style="font-size: 14px; color: var(--store-text-muted); margin-bottom: 24px;">
+      Please provide your delivery destination and contact details.
+    </p>
+
+    {% if messages %}
+      {% for message in messages %}
+        <div style="background: rgba(239, 68, 68, 0.1); border: 1px solid #ef4444; color: #ef4444; padding: 12px 16px; border-radius: var(--store-radius); margin-bottom: 20px; font-size: 14px;">
+          {{ message }}
+        </div>
+      {% endfor %}
+    {% endif %}
+
+    <form method="POST" action="{% url 'checkout' %}">
+      {% csrf_token %}
+
+      <h3 style="font-size: 16px; border-bottom: 1px solid var(--store-border); padding-bottom: 8px; margin-bottom: 16px;">
+        1. Contact Information
+      </h3>
+      <div class="form-grid">
+        <div>
+          <label class="form-label">Full Name *</label>
+          <input type="text" name="customer_name" class="form-control" required placeholder="Eleanor Vance" value="Eleanor Vance">
+        </div>
+        <div>
+          <label class="form-label">Email Address *</label>
+          <input type="email" name="customer_email" class="form-control" required placeholder="eleanor@vance-atelier.com" value="eleanor@vance-atelier.com">
+        </div>
+        <div class="form-group-full">
+          <label class="form-label">Phone Number *</label>
+          <input type="tel" name="customer_phone" class="form-control" required placeholder="+1 (555) 234-5678" value="+1 (555) 234-5678">
+        </div>
+      </div>
+
+      <h3 style="font-size: 16px; border-bottom: 1px solid var(--store-border); padding-bottom: 8px; margin: 30px 0 16px;">
+        2. Delivery Address
+      </h3>
+      <div class="form-grid">
+        <div class="form-group-full">
+          <label class="form-label">Street Address *</label>
+          <input type="text" name="shipping_address" class="form-control" required placeholder="742 Needlecraft Way, Studio 4B" value="742 Needlecraft Way, Studio 4B">
+        </div>
+        <div>
+          <label class="form-label">City *</label>
+          <input type="text" name="city" class="form-control" required placeholder="San Francisco" value="San Francisco">
+        </div>
+        <div>
+          <label class="form-label">Postal / ZIP Code *</label>
+          <input type="text" name="postal_code" class="form-control" required placeholder="94107" value="94107">
+        </div>
+        <div class="form-group-full">
+          <label class="form-label">Country *</label>
+          <input type="text" name="country" class="form-control" required placeholder="United States" value="United States">
+        </div>
+      </div>
+
+      <h3 style="font-size: 16px; border-bottom: 1px solid var(--store-border); padding-bottom: 8px; margin: 30px 0 16px;">
+        3. Payment Method Simulation
+      </h3>
+      <div class="payment-options-group">
+        <label class="payment-option-card">
+          <input type="radio" name="payment_method" value="credit_card" checked>
+          <div>
+            <strong>Credit / Debit Card (Instant Simulation)</strong>
+            <p style="font-size: 12px; color: var(--store-text-muted);">Visa, MasterCard, American Express (Encrypted SSL)</p>
+          </div>
+        </label>
+
+        <label class="payment-option-card">
+          <input type="radio" name="payment_method" value="cod">
+          <div>
+            <strong>Cash on Courier Delivery (COD)</strong>
+            <p style="font-size: 12px; color: var(--store-text-muted);">Pay directly to the courier upon packet inspection</p>
+          </div>
+        </label>
+
+        <label class="payment-option-card">
+          <input type="radio" name="payment_method" value="bank_transfer">
+          <div>
+            <strong>Direct Bank Wire / Invoice</strong>
+            <p style="font-size: 12px; color: var(--store-text-muted);">Receive banking routing coordinates upon order placement</p>
+          </div>
+        </label>
+      </div>
+
+      <button type="submit" class="btn-primary" style="width: 100%; justify-content: center; padding: 16px; font-size: 16px; margin-top: 30px;">
+        Authorize & Place Order (${{ cart.get_total|floatformat:2 }}) →
+      </button>
+    </form>
+  </div>
+
+  <!-- Order Items Summary Sidebar -->
+  <aside>
+    <div class="checkout-box" style="position: sticky; top: 120px;">
+      <h3 style="font-size: 18px; margin-bottom: 16px;">Order Summary ({{ cart.total_count }} items)</h3>
+
+      <div style="display: flex; flex-direction: column; gap: 14px; margin-bottom: 20px;">
+        {% for item in cart %}
+          <div style="display: flex; gap: 12px; align-items: center;">
+            <img src="{{ item.image_url }}" alt="{{ item.title }}" style="width: 50px; height: 50px; border-radius: var(--store-radius); object-fit: cover;">
+            <div style="flex-grow: 1;">
+              <h5 style="font-size: 13px; font-weight: 700;">{{ item.title }}</h5>
+              {% if item.variant_name %}
+                <span style="font-size: 11px; color: var(--store-text-muted);">{{ item.variant_name }}</span>
+              {% endif %}
+              <div style="font-size: 12px; color: var(--store-text-muted);">Qty: {{ item.quantity }} × ${{ item.unit_price_decimal|floatformat:2 }}</div>
+            </div>
+            <strong>${{ item.total_price_decimal|floatformat:2 }}</strong>
+          </div>
+        {% endfor %}
+      </div>
+
+      <div class="cart-totals-list" style="border-top: 1px solid var(--store-border); padding-top: 16px;">
+        <div class="cart-total-line">
+          <span>Subtotal</span>
+          <span>${{ cart.get_subtotal|floatformat:2 }}</span>
+        </div>
+        {% if cart.get_discount > 0 %}
+          <div class="cart-total-line" style="color: #10b981;">
+            <span>Coupon Discount ({{ cart.coupon_code }})</span>
+            <span>-${{ cart.get_discount|floatformat:2 }}</span>
+          </div>
+        {% endif %}
+        <div class="cart-total-line">
+          <span>Courier Shipping</span>
+          <span>{% if cart.get_shipping == 0 %}FREE{% else %}${{ cart.get_shipping|floatformat:2 }}{% endif %}</span>
+        </div>
+        <div class="cart-total-line grand-total">
+          <span>Total Due</span>
+          <span>${{ cart.get_total|floatformat:2 }}</span>
+        </div>
+      </div>
+
+      <div style="margin-top: 20px; font-size: 12px; color: var(--store-text-muted); text-align: center;">
+        🔒 256-bit SSL Encrypted • Merchant Guild Certified
+      </div>
+    </div>
+  </aside>
+</div>
+{% endblock %}
