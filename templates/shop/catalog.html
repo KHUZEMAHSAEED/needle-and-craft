@@ -1,30 +1,87 @@
 {% extends 'shop/base.html' %}
 {% load static %}
 
-{% block title %}All Products - {{ store_config.store_name }}{% endblock %}
+{% block title %}Needlework Catalog - {{ store_config.store_name }}{% endblock %}
 
 {% block content %}
 <div class="container" style="padding: 40px 20px 80px;">
+
+  <!-- ==========================================================================
+       LAYOUT-SPECIFIC HEADER BANNERS (4 DISTINCT LAYOUT STYLES)
+       ========================================================================== -->
+  {% if layout_style == 'boutique' %}
+    <!-- Style 1: Luxury Boutique Editorial Spotlight -->
+    <div class="catalog-spotlight-banner">
+      <div>
+        <span class="hero-meta-pill" style="margin-bottom: 8px;">Haute Couture Archives</span>
+        <h2 style="font-size: 26px; margin-bottom: 8px;">Mastery in Every Filament & Needlepoint</h2>
+        <p style="font-size: 14px; color: var(--store-text-muted); line-height: 1.6;">
+          Hand-inspected French silk skeins, 24k gold tambour hooks, and ecclesiastical bullion wires reserved for premier couture salons and restoration ateliers.
+        </p>
+      </div>
+      <div style="background: var(--store-surface-raised); border: 1px solid var(--store-border); padding: 18px; border-radius: var(--store-radius); text-align: center;">
+        <span style="font-size: 11px; text-transform: uppercase; color: var(--store-primary); font-weight: 800; letter-spacing: 0.1em;">Guild Authentication</span>
+        <p style="font-size: 13px; margin-top: 4px;">Certified 100% burr-free needle eyes & pure mulberry silk fibers.</p>
+      </div>
+    </div>
+
+  {% elif layout_style == 'studio' %}
+    <!-- Style 2: Modern Maker Studio Promo Strip -->
+    <div class="studio-promo-strip">
+      <div style="display: flex; align-items: center; gap: 12px;">
+        <span style="font-size: 24px;">✂️</span>
+        <div>
+          <div style="font-size: 15px;">Maker Studio Special: Buy Any 3 Spools, Get Free Wonder Clips</div>
+          <div style="font-size: 12px; opacity: 0.9;">Universal machine needles engineered for laser-sharp piecing</div>
+        </div>
+      </div>
+      <span class="demo-theme-badge" style="background: rgba(255,255,255,0.25); color: #fff;">Needle-to-Thread Ready</span>
+    </div>
+
+  {% elif layout_style == 'technical' %}
+    <!-- Style 3: Industrial Workbench & Tactical Spec Sheet Status -->
+    <div class="technical-status-strip">
+      <div>
+        <strong>SYSTEM METRICS:</strong> DBx1 / 130R Industrial Tolerances Active • High-Speed Rated up to 6,000 SPM
+      </div>
+      <div>
+        <span style="color: var(--store-primary);">● SPEC GRADE:</span> COMMERCIAL HEAVY RIGGING
+      </div>
+    </div>
+
+  {% else %}
+    <!-- Style 4: Organic Wabi-Sabi Craft Story Wisdom Strip -->
+    <div class="artisanal-wisdom-strip">
+      "Mottainai — A reverence for every stitch, honoring the cloth through mindful mending and botanical hues."
+    </div>
+  {% endif %}
+
   <!-- Catalog Title Header -->
   <div class="section-header">
     <div>
-      <h1 class="section-title">Needlework Catalog</h1>
+      <h1 class="section-title">
+        {% if selected_category %}{{ selected_category.name }}{% else %}Needlework Catalog{% endif %}
+      </h1>
       <p class="section-subtitle">
-        Showing {{ total_count }} artisan products
-        {% if selected_category %} in category <strong>{{ selected_category.name }}</strong>{% endif %}
+        Showing {{ total_count }} artisan items 
+        {% if selected_category %}in category <strong>{{ selected_category.name }}</strong>{% endif %}
         {% if search_query %} matching "<em>{{ search_query }}</em>"{% endif %}
+        • Visual Layout: <strong>{{ layout_style|title }}</strong>
       </p>
     </div>
   </div>
 
-  <!-- Interactive Filter & Search Bar -->
+  <!-- Interactive Filter & Search Bar with Clean Canonical Category URLs -->
   <div class="filter-bar">
     <div class="filter-group-left">
-      <a href="{% url 'catalog' %}" class="filter-pill {% if not selected_category %}active{% endif %}">
+      <a href="{% if is_demo_mode %}{% url 'demo_catalog' theme_id=active_theme %}{% else %}{% url 'catalog' %}{% endif %}" class="filter-pill {% if not selected_category %}active{% endif %}">
         All Categories
       </a>
       {% for cat in categories %}
-        <a href="{% url 'catalog' %}?category={{ cat.slug }}" class="filter-pill {% if selected_category.slug == cat.slug %}active{% endif %}">
+        <a 
+          href="{% if is_demo_mode %}{% url 'demo_catalog_category' theme_id=active_theme category_slug=cat.slug %}{% else %}{% url 'catalog_category' category_slug=cat.slug %}{% endif %}" 
+          class="filter-pill {% if selected_category.slug == cat.slug %}active{% endif %}"
+        >
           {{ cat.icon }} {{ cat.name }}
         </a>
       {% endfor %}
@@ -46,13 +103,13 @@
     </div>
   </div>
 
-  <!-- Product Grid -->
+  <!-- Product Grid (Renders according to active layout style) -->
   {% if products %}
     <div class="products-grid">
       {% for product in products %}
         <article class="product-card">
           <div class="product-card-media">
-            <a href="{% url 'product_detail' slug=product.slug %}">
+            <a href="{% if is_demo_mode %}{% url 'demo_product_detail' theme_id=active_theme slug=product.slug %}{% else %}{% url 'product_detail' slug=product.slug %}{% endif %}">
               <img src="{{ product.image_url }}" alt="{{ product.title }}" class="product-card-img" loading="lazy">
             </a>
             {% if product.badge %}
@@ -62,10 +119,23 @@
 
           <div class="product-card-body">
             <span class="product-card-category">{{ product.category.name }}</span>
-            <a href="{% url 'product_detail' slug=product.slug %}">
+            <a href="{% if is_demo_mode %}{% url 'demo_product_detail' theme_id=active_theme slug=product.slug %}{% else %}{% url 'product_detail' slug=product.slug %}{% endif %}">
               <h3 class="product-card-title">{{ product.title }}</h3>
             </a>
             <p class="product-card-desc">{{ product.short_description }}</p>
+
+            {% if layout_style == 'technical' %}
+              <!-- Technical Specs Card Strip -->
+              <div class="card-spec-strip">
+                <span>SKU: {{ product.sku }}</span>
+                <span>RATE: {{ product.rating }}★</span>
+              </div>
+            {% elif layout_style == 'artisanal' %}
+              <!-- Artisanal Craft Note -->
+              <div class="card-craft-story">
+                “Slow-crafted for mindful tactile stitching.”
+              </div>
+            {% endif %}
 
             <div class="product-card-footer">
               <div class="price-box">
@@ -95,7 +165,7 @@
       <div style="font-size: 48px; margin-bottom: 16px;">🔍</div>
       <h2>No products matched your criteria</h2>
       <p style="color: var(--store-text-muted); margin: 8px 0 24px;">Try clearing your search query or selecting a different category filter.</p>
-      <a href="{% url 'catalog' %}" class="btn-primary">Clear All Filters</a>
+      <a href="{% if is_demo_mode %}{% url 'demo_catalog' theme_id=active_theme %}{% else %}{% url 'catalog' %}{% endif %}" class="btn-primary">Clear All Filters</a>
     </div>
   {% endif %}
 </div>

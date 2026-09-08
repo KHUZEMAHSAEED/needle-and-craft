@@ -15,6 +15,12 @@ THEME_CHOICES = [
     ('neontuft', '8. Neon Tuft & Punch (Gen-Z Fiber Art & Modern Rug Punch)'),
     ('precision', '9. Precision Micro-Needle (High-Tech Industrial & Embroidery)'),
     ('boho', '10. Boho Tapestry & Weft (Artisan Weaving & Macramé)'),
+    ('baroque', '11. Baroque Ecclesiastical (Goldwork & Church Vestments)'),
+    ('retro70s', '12. Retro 70s Earth Weaver (Vintage Jute, Hemp & Macramé)'),
+    ('tactical', '13. Tactical Rigging (Mil-Spec Kevlar & Ballistic Awls)'),
+    ('kawaii', '14. Kawaii Pastel Amigurumi (Ergonomic Hooks & Soft Fluff)'),
+    ('gothic', '15. Dark Romantic Corsetry (Waxed Cord & Boning Needles)'),
+    ('artnouveau', '16. Art Nouveau Lace (Whiplash Curves & Filigree Silks)'),
 ]
 
 

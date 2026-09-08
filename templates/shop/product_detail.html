@@ -5,11 +5,11 @@
 
 {% block content %}
 <div class="container product-detail-layout">
-  <!-- Breadcrumbs -->
+  <!-- Clean Canonical Breadcrumbs -->
   <div style="font-size: 13px; color: var(--store-text-muted); margin-bottom: 24px;">
-    <a href="{% url 'home' %}">Home</a> &nbsp;/&nbsp;
-    <a href="{% url 'catalog' %}">Catalog</a> &nbsp;/&nbsp;
-    <a href="{% url 'catalog' %}?category={{ product.category.slug }}">{{ product.category.name }}</a> &nbsp;/&nbsp;
+    <a href="{% if is_demo_mode %}{% url 'demo_home' theme_id=active_theme %}{% else %}{% url 'home' %}{% endif %}">Home</a> &nbsp;/&nbsp;
+    <a href="{% if is_demo_mode %}{% url 'demo_catalog' theme_id=active_theme %}{% else %}{% url 'catalog' %}{% endif %}">Catalog</a> &nbsp;/&nbsp;
+    <a href="{% if is_demo_mode %}{% url 'demo_catalog_category' theme_id=active_theme category_slug=product.category.slug %}{% else %}{% url 'catalog_category' category_slug=product.category.slug %}{% endif %}">{{ product.category.name }}</a> &nbsp;/&nbsp;
     <span style="color: var(--store-text);">{{ product.title }}</span>
   </div>
 
@@ -34,7 +34,7 @@
         <div style="display: flex; align-items: center; gap: 8px; margin-top: 8px; font-size: 14px;">
           <span style="color: #f59e0b;">★ ★ ★ ★ ★</span>
           <strong>{{ product.rating }}</strong>
-          <span style="color: var(--store-text-muted);">({{ product.reviews_count }} verified artisan reviews)</span>
+          <span style="color: var(--store-text-muted);">({{ product.reviews_count }} verified reviews)</span>
         </div>
       </div>
 
@@ -55,7 +55,7 @@
         <input type="hidden" id="selectedVariantId" value="{% if variants.first %}{{ variants.first.id }}{% endif %}">
 
         {% if variants.exists %}
-          <div class="variant-selector-box">
+          <div class="variant-selector-box {% if layout_style == 'boutique' %}velvet-swatch-board{% endif %}">
             <div style="display: flex; justify-content: space-between; align-items: center;">
               <span class="variant-label">Selection / Option:</span>
               <strong id="selectedVariantNameLabel" style="font-size: 13px; color: var(--store-primary);">
@@ -114,6 +114,82 @@
         </div>
       </form>
 
+      <!-- ==========================================================================
+           LAYOUT-SPECIFIC PRODUCT DETAIL COMPONENTS (4 DISTINCT EXPERIENCES)
+           ========================================================================== -->
+      {% if layout_style == 'boutique' %}
+        <!-- Style 1: Luxury Boutique Heirloom Accordion -->
+        <div class="heirloom-accordion">
+          <div class="accordion-item">
+            <div class="accordion-title">
+              <span>⚜️ Haute Couture Craftsmanship & Provenance</span>
+              <span>▾</span>
+            </div>
+            <p style="font-size: 13px; color: var(--store-text-muted); margin-top: 8px; line-height: 1.6;">
+              Milled in accordance with historic French guild standards. Each spool is hand-wound onto archival wooden cores to prevent filament crimping and micro-abrasion.
+            </p>
+          </div>
+          <div class="accordion-item">
+            <div class="accordion-title">
+              <span>🧵 Tension & Recommended Needle Gauges</span>
+              <span>▾</span>
+            </div>
+            <p style="font-size: 13px; color: var(--store-text-muted); margin-top: 8px; line-height: 1.6;">
+              Optimal pairing: Hand needles Size 9/10, or tambour hook #70. Adjust upper tension to light-medium on machine applications.
+            </p>
+          </div>
+        </div>
+
+      {% elif layout_style == 'studio' %}
+        <!-- Style 2: Modern Maker Studio Needle-to-Thread Compatibility Matrix -->
+        <div class="stitch-pairing-calculator">
+          <div style="display: flex; justify-content: space-between; align-items: center;">
+            <strong style="font-size: 14px;">🪡 Recommended Fabric Pairing Matrix:</strong>
+            <span style="font-size: 11px; color: var(--store-primary); font-weight: 700;">Verified Match</span>
+          </div>
+          <div class="fabric-chips-grid">
+            <span class="fabric-chip match">Quilting Cotton</span>
+            <span class="fabric-chip match">Linen Twill</span>
+            <span class="fabric-chip match">Medium Denim</span>
+            <span class="fabric-chip">Silk Gazar</span>
+            <span class="fabric-chip match">Polyester Batting</span>
+          </div>
+          <div style="font-size: 12px; color: var(--store-text-muted); margin-top: 10px;">
+            ⚡ Quick-Ship Studio Guarantee: Dispatched in recyclable protective fiber packs within 24 hours.
+          </div>
+        </div>
+
+      {% elif layout_style == 'technical' %}
+        <!-- Style 3: Industrial Blueprint Schematic & Tensile Meter -->
+        <div class="blueprint-schematic-card">
+          <div style="display: flex; justify-content: space-between; font-size: 12px;">
+            <span>TENSILE LOAD STRESS RATING</span>
+            <span style="color: var(--store-primary); font-weight: 800;">42 LBS TEST (HIGH REINFORCEMENT)</span>
+          </div>
+          <div class="tensile-meter-bar">
+            <div class="tensile-fill"></div>
+          </div>
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; font-size: 12px; border-top: 1px solid var(--store-border); padding-top: 10px;">
+            <div><strong>Eye Geometry:</strong> Anti-Deflection Micro-Groove</div>
+            <div><strong>Shank Tolerance:</strong> ±0.005mm Commercial Standard</div>
+            <div><strong>Thermal Dissipation:</strong> TiN Golden Titanium Hard-Coat</div>
+            <div><strong>Max Machine Speed:</strong> 6,000 SPM Certified</div>
+          </div>
+        </div>
+
+      {% else %}
+        <!-- Style 4: Organic Wabi-Sabi Craft Story & Provenance Block -->
+        <div class="maker-journey-box">
+          <h4>The Maker's Journey & Botanical Provenance</h4>
+          <p style="font-size: 13px; color: var(--store-text-muted); line-height: 1.6;">
+            Rooted in slow crafting traditions. This item is designed for visible repair and longevity, developing a beautiful gentle patina that records the passage of time and wear.
+          </p>
+          <div style="margin-top: 12px; font-size: 12px; font-weight: 600; color: var(--store-text);">
+            🌱 100% Biodegradable Packaging • Zero Synthetic Chemical Coatings
+          </div>
+        </div>
+      {% endif %}
+
       <!-- Specifications Table -->
       {% if product.specs %}
         <div style="margin-top: 20px;">
@@ -130,14 +206,6 @@
           </table>
         </div>
       {% endif %}
-
-      <div style="background: var(--store-surface-raised); padding: 14px 18px; border-radius: var(--store-radius); font-size: 13px; display: flex; gap: 10px; align-items: center; border: 1px solid var(--store-border);">
-        <span style="font-size: 20px;">🛡️</span>
-        <div>
-          <strong>Authenticity & Guild Guarantee:</strong>
-          <span style="color: var(--store-text-muted);"> Guaranteed burr-free needle eyes & tested tensile integrity. 30-day effortless return policy.</span>
-        </div>
-      </div>
     </div>
   </div>
 
@@ -149,18 +217,18 @@
         {% for rel in related_products %}
           <article class="product-card">
             <div class="product-card-media">
-              <a href="{% url 'product_detail' slug=rel.slug %}">
+              <a href="{% if is_demo_mode %}{% url 'demo_product_detail' theme_id=active_theme slug=rel.slug %}{% else %}{% url 'product_detail' slug=rel.slug %}{% endif %}">
                 <img src="{{ rel.image_url }}" alt="{{ rel.title }}" class="product-card-img" loading="lazy">
               </a>
             </div>
             <div class="product-card-body">
               <span class="product-card-category">{{ rel.category.name }}</span>
-              <a href="{% url 'product_detail' slug=rel.slug %}">
+              <a href="{% if is_demo_mode %}{% url 'demo_product_detail' theme_id=active_theme slug=rel.slug %}{% else %}{% url 'product_detail' slug=rel.slug %}{% endif %}">
                 <h3 class="product-card-title">{{ rel.title }}</h3>
               </a>
               <div class="product-card-footer">
                 <span class="price-current">${{ rel.base_price }}</span>
-                <a href="{% url 'product_detail' slug=rel.slug %}" class="quick-add-btn">View</a>
+                <a href="{% if is_demo_mode %}{% url 'demo_product_detail' theme_id=active_theme slug=rel.slug %}{% else %}{% url 'product_detail' slug=rel.slug %}{% endif %}" class="quick-add-btn">View</a>
               </div>
             </div>
           </article>

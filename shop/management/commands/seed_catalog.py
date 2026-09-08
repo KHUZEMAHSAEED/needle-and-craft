@@ -89,6 +89,48 @@ class Command(BaseCommand):
                 'description': 'Natural 4mm combed macramé cord, warped tapestry warp thread, and hand-carved maple shuttles.',
                 'order': 10,
             },
+            {
+                'name': 'Baroque Goldwork & Liturgical',
+                'slug': 'baroque-goldwork',
+                'icon': '👑',
+                'description': 'Real silver-gilt passing threads, gold bullion purl wires, and liturgical vestment needles.',
+                'order': 11,
+            },
+            {
+                'name': 'Retro 70s Earth Weaver',
+                'slug': 'retro-earth',
+                'icon': '🌻',
+                'description': 'Rough golden jute twine, raw unbleached hemp cordage, and vintage turned hardwood beads.',
+                'order': 12,
+            },
+            {
+                'name': 'Tactical Rigging & Mil-Spec',
+                'slug': 'tactical-milspec',
+                'icon': '🛡️',
+                'description': 'Bonded Kevlar 92 high-tensile threads, field repair awls, and heavy ballistic webbing needles.',
+                'order': 13,
+            },
+            {
+                'name': 'Kawaii Pastel Amigurumi',
+                'slug': 'kawaii-plush',
+                'icon': '🌸',
+                'description': 'Soft-touch pastel ergonomic hooks, milk cotton fluff yarn, and safety locking stitch markers.',
+                'order': 14,
+            },
+            {
+                'name': 'Dark Romantic Corsetry',
+                'slug': 'gothic-corsetry',
+                'icon': '🥀',
+                'description': 'Heavy-duty steel boning needles, ultra-waxed corset lacing twine, and midnight velvet floss.',
+                'order': 15,
+            },
+            {
+                'name': 'Art Nouveau Stitched Lace',
+                'slug': 'art-nouveau',
+                'icon': '🦚',
+                'description': 'Mucha-inspired peacock green silks, sterling filigree tatting shuttles, and picot lace needles.',
+                'order': 16,
+            },
         ]
 
         cat_map = {}
@@ -507,6 +549,176 @@ class Command(BaseCommand):
                     {'name': 'Warm Natural Cream', 'color_hex': '#F7EFE3', 'price_adjustment': Decimal('0.00'), 'stock': 45},
                     {'name': 'Sunbaked Ochre Mustard', 'color_hex': '#D9822B', 'price_adjustment': Decimal('0.00'), 'stock': 30},
                     {'name': 'Dusty Desert Rose', 'color_hex': '#B3545A', 'price_adjustment': Decimal('0.00'), 'stock': 25},
+                ]
+            },
+
+            # 11. Baroque Goldwork
+            {
+                'category': cat_map['baroque-goldwork'],
+                'title': 'Real Silver-Gilt Passing Thread & Gold Bullion Purl Skein',
+                'slug': 'real-silver-gilt-passing-thread-gold-bullion',
+                'short_description': 'Authentic metallic thread wound over silk core for sacred liturgical vestments and royal heraldry embroidery.',
+                'description': 'Handcrafted using centuries-old techniques. Real silver-gilt foil is wound in a continuous microscopic helix over a yellow silk core, creating blinding radiance without tarnishing.',
+                'base_price': Decimal('42.00'),
+                'compare_price': Decimal('55.00'),
+                'image_url': 'https://images.unsplash.com/photo-1598440947619-2c35fc9aa908?auto=format&fit=crop&w=800&q=80',
+                'badge': 'Ecclesiastical Guild',
+                'in_stock': True,
+                'sku': 'BARO-GOLD-001',
+                'rating': Decimal('5.0'),
+                'reviews_count': 33,
+                'specs': {
+                    'Foil Composition': '2% Silver-Gilt on Pure Silk Core',
+                    'Length': '20 meters',
+                    'Origin': 'Lyon & Florence',
+                },
+                'theme_niche': 'baroque',
+                'is_featured': True,
+                'variants': [
+                    {'name': 'Imperial Gold Passing #4', 'color_hex': '#C5A059', 'price_adjustment': Decimal('0.00'), 'stock': 20},
+                    {'name': 'Bright Silver Gilt #4', 'color_hex': '#E0E0E0', 'price_adjustment': Decimal('0.00'), 'stock': 15},
+                ]
+            },
+
+            # 12. Retro 70s
+            {
+                'category': cat_map['retro-earth'],
+                'title': 'Raw Golden Jute Craft Twine & Turned Hardwood Bead Set',
+                'slug': 'raw-golden-jute-craft-twine-hardwood-bead-set',
+                'short_description': '3-ply natural unrefined jute cord paired with 50 hand-turned walnut beads for retro macramé wall hangings.',
+                'description': 'A love letter to 1970s fiber arts. The golden jute fiber is completely unprocessed, offering that rustic earthy scent, textured hand-feel, and robust knot holding power.',
+                'base_price': Decimal('19.50'),
+                'compare_price': Decimal('25.00'),
+                'image_url': 'https://images.unsplash.com/photo-1590736969955-71cc94801759?auto=format&fit=crop&w=800&q=80',
+                'badge': '70s Earth Revival',
+                'in_stock': True,
+                'sku': 'RETR-JUTE-001',
+                'rating': Decimal('4.8'),
+                'reviews_count': 41,
+                'specs': {
+                    'Material': '100% Golden Bengal Jute',
+                    'Length': '150 meters (492 ft)',
+                    'Origin': 'Bengal / Vermont',
+                },
+                'theme_niche': 'retro70s',
+                'is_featured': True,
+                'variants': [
+                    {'name': 'Raw Natural Golden Jute', 'color_hex': '#E1AD01', 'price_adjustment': Decimal('0.00'), 'stock': 35},
+                    {'name': 'Rust Terracotta Dip', 'color_hex': '#B84A39', 'price_adjustment': Decimal('2.00'), 'stock': 25},
+                ]
+            },
+
+            # 13. Tactical Rigging
+            {
+                'category': cat_map['tactical-milspec'],
+                'title': 'Bonded Kevlar 92 High-Tensile Rigging Thread & Diamond Awl',
+                'slug': 'bonded-kevlar-92-rigging-thread-diamond-awl',
+                'short_description': 'Commercial Mil-Spec DuPont Kevlar thread with 50 lbs break test strength and high-carbon ground diamond point awl.',
+                'description': 'Engineered for extreme duty: military webbing, ballistic nylon packs, paraglider rigging, and mountaineering harness repairs. Impervious to rot, saltwater, and temperatures up to 800°F.',
+                'base_price': Decimal('32.00'),
+                'compare_price': Decimal('40.00'),
+                'image_url': 'https://images.unsplash.com/photo-1509281373149-e957c6296406?auto=format&fit=crop&w=800&q=80',
+                'badge': 'Mil-Spec Extreme Tensile',
+                'in_stock': True,
+                'sku': 'TACT-KEVL-001',
+                'rating': Decimal('5.0'),
+                'reviews_count': 58,
+                'specs': {
+                    'Fiber': '100% Virgin DuPont Kevlar',
+                    'Tensile Test': '50 lbs Break Strength',
+                    'Temperature Rating': 'Heat resistant to 800°F',
+                    'Origin': 'USA',
+                },
+                'theme_niche': 'tactical',
+                'is_featured': True,
+                'variants': [
+                    {'name': 'Coyote Brown (Size 92)', 'color_hex': '#9A7B4F', 'price_adjustment': Decimal('0.00'), 'stock': 40},
+                    {'name': 'Tactical Matte Black', 'color_hex': '#1C1F22', 'price_adjustment': Decimal('0.00'), 'stock': 45},
+                    {'name': 'Ranger Green (OD)', 'color_hex': '#4B5320', 'price_adjustment': Decimal('0.00'), 'stock': 30},
+                ]
+            },
+
+            # 14. Kawaii Amigurumi
+            {
+                'category': cat_map['kawaii-plush'],
+                'title': 'Pastel Ergonomic Soft-Grip Hook & 5-Ply Milk Cotton Fluff Set',
+                'slug': 'pastel-ergonomic-hook-milk-cotton-fluff-set',
+                'short_description': 'Buttery smooth aluminum hook with pastel silicone ergonomic grip and 4 skeins of anti-pilling milk cotton.',
+                'description': 'Craft plush amigurumi bunnies, cats, and cute keychains effortlessly. The gentle ergonomic grip cushions the palm, while the combed milk cotton glides with zero splitting.',
+                'base_price': Decimal('22.50'),
+                'compare_price': Decimal('28.00'),
+                'image_url': 'https://images.unsplash.com/photo-1584992236310-6edddc08acff?auto=format&fit=crop&w=800&q=80',
+                'badge': 'Kawaii Cute Favorite',
+                'in_stock': True,
+                'sku': 'KAWA-HOOK-001',
+                'rating': Decimal('4.9'),
+                'reviews_count': 72,
+                'specs': {
+                    'Hook Material': 'Lightweight Anodized Aluminum with Pastel Silicone Handle',
+                    'Yarn Composition': '80% Combed Cotton, 20% Milk Fiber',
+                    'Origin': 'Japan / Korea',
+                },
+                'theme_niche': 'kawaii',
+                'is_featured': True,
+                'variants': [
+                    {'name': 'Baby Blossom Set (Pink, Lavender, Mint, Cream)', 'price_adjustment': Decimal('0.00'), 'stock': 40},
+                    {'name': 'Ocean Sweets Set (Sky Blue, Seafoam, Coral, Vanilla)', 'price_adjustment': Decimal('0.00'), 'stock': 30},
+                ]
+            },
+
+            # 15. Dark Gothic Corsetry
+            {
+                'category': cat_map['gothic-corsetry'],
+                'title': 'Heavy Waxed Corset Lacing Cord & Spring Steel Boning Needles',
+                'slug': 'heavy-waxed-corset-lacing-boning-needles',
+                'short_description': 'High-density braided tubular corsetry cord with reinforced metal aglets and blunt curved boning channel needles.',
+                'description': 'Designed specifically for tight-lacing historical corsets, stays, and dark romantic evening gowns. Won’t roll, snap, or stretch under extreme cinch tension.',
+                'base_price': Decimal('26.00'),
+                'compare_price': Decimal('34.00'),
+                'image_url': 'https://images.unsplash.com/photo-1617038260897-41a1f14a8ca0?auto=format&fit=crop&w=800&q=80',
+                'badge': 'Dark Romance Atelier',
+                'in_stock': True,
+                'sku': 'GOTH-CORSET-001',
+                'rating': Decimal('5.0'),
+                'reviews_count': 39,
+                'specs': {
+                    'Cord Type': 'High-Density Waxed Tubular Braided Poly-Flax',
+                    'Length': '8 meters (with solid brass aglets)',
+                    'Origin': 'Sheffield, England',
+                },
+                'theme_niche': 'gothic',
+                'is_featured': True,
+                'variants': [
+                    {'name': 'Midnight Raven Black', 'color_hex': '#0D080C', 'price_adjustment': Decimal('0.00'), 'stock': 35},
+                    {'name': 'Blood Crimson Wine', 'color_hex': '#9B1B30', 'price_adjustment': Decimal('1.50'), 'stock': 25},
+                ]
+            },
+
+            # 16. Art Nouveau
+            {
+                'category': cat_map['art-nouveau'],
+                'title': 'Alphonse Peacock Filigree Silk & Sterling Lace Tatting Shuttle',
+                'slug': 'alphonse-peacock-filigree-silk-tatting-shuttle',
+                'short_description': 'Inspired by Mucha whip-lash motifs: high-sheen peacock gradient silk floss with etched vintage tatting shuttle.',
+                'description': 'Echoing the flowing organic curves of 1900s Paris. The iridescent peacock silk floss shifts between emerald, teal, and bronze in natural light, making delicate lace collars and picot motifs sing.',
+                'base_price': Decimal('35.00'),
+                'compare_price': Decimal('44.00'),
+                'image_url': 'https://images.unsplash.com/photo-1544441893-675973e31985?auto=format&fit=crop&w=800&q=80',
+                'badge': 'Art Nouveau Filigree',
+                'in_stock': True,
+                'sku': 'ARTN-LACE-001',
+                'rating': Decimal('4.9'),
+                'reviews_count': 47,
+                'specs': {
+                    'Fiber': '100% Pure Mulberry Silk with Iridescent Gradient Dye',
+                    'Shuttle': 'Polished Antique Pewter / Silver Finish with Picot Hook',
+                    'Origin': 'Paris / Vienna',
+                },
+                'theme_niche': 'artnouveau',
+                'is_featured': True,
+                'variants': [
+                    {'name': 'Peacock Emerald Gradient', 'color_hex': '#518576', 'price_adjustment': Decimal('0.00'), 'stock': 30},
+                    {'name': 'Dusty Orchid Rose Gradient', 'color_hex': '#DFB2B4', 'price_adjustment': Decimal('0.00'), 'stock': 25},
                 ]
             },
         ]

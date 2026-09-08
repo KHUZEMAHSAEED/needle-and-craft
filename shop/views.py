@@ -11,7 +11,10 @@ from .cart import Cart
 from .context_processors import THEME_MAP, THEME_SAMPLES
 
 
-def home_view(request):
+def home_view(request, theme_id=None):
+    if theme_id and theme_id in THEME_MAP:
+        request.session['active_theme'] = theme_id
+
     featured_products = Product.objects.filter(is_featured=True, in_stock=True)[:8]
     if not featured_products.exists():
         featured_products = Product.objects.all()[:8]
@@ -27,15 +30,18 @@ def home_view(request):
     return render(request, 'shop/home.html', context)
 
 
-def catalog_view(request):
+def catalog_view(request, theme_id=None, category_slug=None):
+    if theme_id and theme_id in THEME_MAP:
+        request.session['active_theme'] = theme_id
+
     products = Product.objects.all()
     categories = Category.objects.all()
     
-    # Category filter
-    selected_category_slug = request.GET.get('category', '').strip()
+    # Category filter (supports clean SEO route /catalog/<category_slug>/ or ?category=...)
+    slug_to_check = category_slug or request.GET.get('category', '').strip()
     selected_category = None
-    if selected_category_slug:
-        selected_category = get_object_or_404(Category, slug=selected_category_slug)
+    if slug_to_check:
+        selected_category = get_object_or_404(Category, slug=slug_to_check)
         products = products.filter(category=selected_category)
 
     # Search filter
@@ -83,7 +89,10 @@ def catalog_view(request):
     return render(request, 'shop/catalog.html', context)
 
 
-def product_detail_view(request, slug):
+def product_detail_view(request, slug, theme_id=None):
+    if theme_id and theme_id in THEME_MAP:
+        request.session['active_theme'] = theme_id
+
     product = get_object_or_404(Product, slug=slug)
     variants = product.variants.all()
     related_products = Product.objects.filter(category=product.category).exclude(id=product.id)[:4]
@@ -273,8 +282,8 @@ def order_success_view(request, order_number):
 def set_theme_view(request, theme_id):
     if theme_id in THEME_MAP:
         request.session['active_theme'] = theme_id
-    next_url = request.GET.get('next') or request.META.get('HTTP_REFERER') or '/'
-    return redirect(next_url)
+        return redirect('demo_home', theme_id=theme_id)
+    return redirect('home')
 
 
 def store_admin_view(request):

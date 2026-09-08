@@ -272,6 +272,157 @@
   --card-border-style: solid;
 }
 
+/* 11. BAROQUE ECCLESIASTICAL (Goldwork & Church Vestments) */
+[data-theme="baroque"] {
+  --store-bg: #14091c;
+  --store-surface: #1e0f29;
+  --store-surface-card: #271436;
+  --store-surface-raised: #341c47;
+  --store-text: #f8f1e6;
+  --store-text-muted: #b8a6c4;
+  --store-primary: #c5a059;
+  --store-primary-hover: #dcba75;
+  --store-primary-text: #14091c;
+  --store-accent: #8b1e3f;
+  --store-border: rgba(197, 160, 89, 0.35);
+  --store-border-strong: #c5a059;
+  --store-radius: 4px;
+  --store-radius-lg: 8px;
+  --font-heading: 'Cinzel', serif;
+  --font-body: 'Playfair Display', serif;
+  --badge-bg: rgba(197, 160, 89, 0.2);
+  --badge-text: #e5c583;
+  --theme-vibe: "baroque";
+  --hero-pattern: radial-gradient(circle at 50% 0%, rgba(197, 160, 89, 0.16) 0%, transparent 70%);
+  --card-border-style: solid;
+}
+
+/* 12. RETRO 70S EARTH WEAVER (Vintage Jute, Hemp & Macramé) */
+[data-theme="retro70s"] {
+  --store-bg: #fbf6ee;
+  --store-surface: #ffffff;
+  --store-surface-card: #ffffff;
+  --store-surface-raised: #f2e9dc;
+  --store-text: #3c2a1e;
+  --store-text-muted: #795d48;
+  --store-primary: #e1ad01;
+  --store-primary-hover: #c99800;
+  --store-primary-text: #2b1d12;
+  --store-accent: #b84a39;
+  --store-border: #e6d7c3;
+  --store-border-strong: #e1ad01;
+  --store-radius: 18px;
+  --store-radius-lg: 28px;
+  --font-heading: 'Fraunces', serif;
+  --font-body: 'Outfit', sans-serif;
+  --badge-bg: #fbedc5;
+  --badge-text: #966f00;
+  --theme-vibe: "retro";
+  --hero-pattern: repeating-radial-gradient(circle at 0 0, transparent 0, #fbf6ee 40px), repeating-linear-gradient(45deg, rgba(225, 173, 1, 0.05), rgba(184, 74, 57, 0.05));
+  --card-border-style: solid;
+}
+
+/* 13. TACTICAL RIGGING & MIL-SPEC (Kevlar Thread & Ballistic Awls) */
+[data-theme="tactical"] {
+  --store-bg: #141618;
+  --store-surface: #1c1f22;
+  --store-surface-card: #22262b;
+  --store-surface-raised: #2c3138;
+  --store-text: #e1e3e6;
+  --store-text-muted: #8b929a;
+  --store-primary: #9a7b4f;
+  --store-primary-hover: #b39162;
+  --store-primary-text: #141618;
+  --store-accent: #4b5320;
+  --store-border: #383e46;
+  --store-border-strong: #9a7b4f;
+  --store-radius: 0px;
+  --store-radius-lg: 2px;
+  --font-heading: 'Space Grotesk', sans-serif;
+  --font-body: 'Plus Jakarta Sans', sans-serif;
+  --badge-bg: #293025;
+  --badge-text: #b8c79b;
+  --theme-vibe: "tactical";
+  --hero-pattern: linear-gradient(135deg, rgba(75, 83, 32, 0.2) 0%, transparent 60%);
+  --card-border-style: solid;
+}
+
+/* 14. KAWAII PASTEL AMIGURUMI (Ergonomic Hooks & Soft Fluff) */
+[data-theme="kawaii"] {
+  --store-bg: #fff5f7;
+  --store-surface: #ffffff;
+  --store-surface-card: #ffffff;
+  --store-surface-raised: #ffe7ed;
+  --store-text: #3d2b35;
+  --store-text-muted: #8b6879;
+  --store-primary: #ff8fa3;
+  --store-primary-hover: #ff758f;
+  --store-primary-text: #ffffff;
+  --store-accent: #70d6ff;
+  --store-border: #ffd3dc;
+  --store-border-strong: #ff8fa3;
+  --store-radius: 20px;
+  --store-radius-lg: 28px;
+  --font-heading: 'Outfit', sans-serif;
+  --font-body: 'Plus Jakarta Sans', sans-serif;
+  --badge-bg: #ffe0e6;
+  --badge-text: #c9184a;
+  --theme-vibe: "kawaii";
+  --hero-pattern: radial-gradient(#ffccd5 1.5px, transparent 1.5px);
+  --hero-pattern-size: 20px 20px;
+  --card-border-style: solid;
+}
+
+/* 15. DARK ROMANTIC CORSETRY (Waxed Cord & Boning Needles) */
+[data-theme="gothic"] {
+  --store-bg: #0d080c;
+  --store-surface: #170e15;
+  --store-surface-card: #20131d;
+  --store-surface-raised: #2c1a27;
+  --store-text: #f0e6ee;
+  --store-text-muted: #9e8999;
+  --store-primary: #9b1b30;
+  --store-primary-hover: #b8223c;
+  --store-primary-text: #ffffff;
+  --store-accent: #4a0e17;
+  --store-border: #422639;
+  --store-border-strong: #9b1b30;
+  --store-radius: 3px;
+  --store-radius-lg: 6px;
+  --font-heading: 'Playfair Display', serif;
+  --font-body: 'Plus Jakarta Sans', sans-serif;
+  --badge-bg: rgba(155, 27, 48, 0.2);
+  --badge-text: #e27d8f;
+  --theme-vibe: "gothic";
+  --hero-pattern: radial-gradient(circle at 80% 20%, rgba(155, 27, 48, 0.15) 0%, transparent 60%);
+  --card-border-style: solid;
+}
+
+/* 16. ART NOUVEAU STITCHED LACE (Whiplash Curves & Filigree Silks) */
+[data-theme="artnouveau"] {
+  --store-bg: #f6faf8;
+  --store-surface: #ffffff;
+  --store-surface-card: #ffffff;
+  --store-surface-raised: #e8f2ee;
+  --store-text: #1d332d;
+  --store-text-muted: #53756b;
+  --store-primary: #518576;
+  --store-primary-hover: #406c5f;
+  --store-primary-text: #ffffff;
+  --store-accent: #dfb2b4;
+  --store-border: #d2e4de;
+  --store-border-strong: #518576;
+  --store-radius: 12px;
+  --store-radius-lg: 20px;
+  --font-heading: 'Fraunces', serif;
+  --font-body: 'Outfit', sans-serif;
+  --badge-bg: #e2efe9;
+  --badge-text: #345c50;
+  --theme-vibe: "artnouveau";
+  --hero-pattern: radial-gradient(circle at 10% 20%, rgba(81, 133, 118, 0.08) 0%, transparent 50%), radial-gradient(circle at 90% 80%, rgba(223, 178, 180, 0.08) 0%, transparent 50%);
+  --card-border-style: solid;
+}
+
 /* ==========================================================================
    GLOBAL BASE STYLING
    ========================================================================== */
@@ -1738,3 +1889,268 @@ button, input, select, textarea {
     align-items: flex-start;
   }
 }
+
+/* ==========================================================================
+   4 DISTINCT SHOP PAGE & PRODUCT DETAIL LAYOUT STYLES
+   ========================================================================== */
+
+/* --------------------------------------------------------------------------
+   STYLE 1: LUXURY BOUTIQUE EDITORIAL (.layout-boutique)
+   -------------------------------------------------------------------------- */
+.layout-boutique .catalog-spotlight-banner {
+  background: var(--store-surface-card);
+  border: 1px solid var(--store-primary);
+  border-radius: var(--store-radius);
+  padding: 30px;
+  margin-bottom: 36px;
+  display: grid;
+  grid-template-columns: 1.2fr 0.8fr;
+  gap: 30px;
+  align-items: center;
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.25);
+  position: relative;
+  overflow: hidden;
+}
+
+.layout-boutique .catalog-spotlight-banner::after {
+  content: "ATELIER SELECTION";
+  position: absolute;
+  top: 12px;
+  right: 18px;
+  font-size: 10px;
+  letter-spacing: 0.15em;
+  color: var(--store-primary);
+  font-weight: 800;
+}
+
+.layout-boutique .products-grid {
+  grid-template-columns: repeat(auto-fill, minmax(290px, 1fr));
+  gap: 34px;
+}
+
+.layout-boutique .product-card {
+  border-width: 1px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.12);
+}
+
+.layout-boutique .product-card:hover {
+  box-shadow: 0 12px 36px rgba(0, 0, 0, 0.25);
+  border-color: var(--store-primary);
+}
+
+/* Boutique Product Detail */
+.layout-boutique .detail-main-img-frame {
+  height: 520px;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.35);
+  border: 1px solid var(--store-border-strong);
+}
+
+.layout-boutique .velvet-swatch-board {
+  background: var(--store-surface-card);
+  border: 1px solid var(--store-border);
+  padding: 22px;
+  border-radius: var(--store-radius);
+  margin-top: 10px;
+}
+
+.layout-boutique .swatch-btn.active {
+  box-shadow: 0 0 0 2px var(--store-surface), 0 0 12px var(--store-primary);
+}
+
+.layout-boutique .heirloom-accordion {
+  border-top: 1px solid var(--store-border);
+  margin-top: 24px;
+  padding-top: 20px;
+}
+
+.layout-boutique .accordion-item {
+  border-bottom: 1px solid var(--store-border);
+  padding: 14px 0;
+}
+
+.layout-boutique .accordion-title {
+  font-family: var(--font-heading);
+  font-size: 15px;
+  font-weight: 700;
+  display: flex;
+  justify-content: space-between;
+  cursor: pointer;
+}
+
+/* --------------------------------------------------------------------------
+   STYLE 2: MODERN MAKER STUDIO (.layout-studio)
+   -------------------------------------------------------------------------- */
+.layout-studio .studio-promo-strip {
+  background: linear-gradient(90deg, var(--store-primary) 0%, var(--store-accent) 100%);
+  color: #ffffff;
+  padding: 14px 24px;
+  border-radius: var(--store-radius);
+  margin-bottom: 28px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 12px;
+  font-weight: 700;
+  box-shadow: var(--shadow-md);
+}
+
+.layout-studio .products-grid {
+  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+  gap: 22px;
+}
+
+.layout-studio .product-card {
+  border-radius: var(--store-radius);
+  transition: transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.2s ease;
+}
+
+.layout-studio .product-card:hover {
+  transform: translateY(-6px) scale(1.01);
+}
+
+/* Studio Product Detail: Pairing Matrix */
+.layout-studio .stitch-pairing-calculator {
+  background: var(--store-surface-raised);
+  border: 1px solid var(--store-border);
+  border-radius: var(--store-radius);
+  padding: 18px;
+  margin-top: 16px;
+}
+
+.layout-studio .fabric-chips-grid {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin-top: 8px;
+}
+
+.layout-studio .fabric-chip {
+  padding: 5px 12px;
+  border-radius: 999px;
+  background: var(--store-surface);
+  border: 1px solid var(--store-border);
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--store-text);
+}
+
+.layout-studio .fabric-chip.match {
+  background: var(--store-primary);
+  color: var(--store-primary-text);
+  border-color: var(--store-primary);
+}
+
+/* --------------------------------------------------------------------------
+   STYLE 3: INDUSTRIAL WORKBENCH & TACTICAL SPEC SHEET (.layout-technical)
+   -------------------------------------------------------------------------- */
+.layout-technical .technical-status-strip {
+  background: var(--store-surface-card);
+  border: 1px solid var(--store-border-strong);
+  padding: 14px 20px;
+  border-radius: var(--store-radius);
+  margin-bottom: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-family: 'Space Grotesk', monospace;
+  font-size: 12px;
+}
+
+.layout-technical .products-grid {
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 20px;
+}
+
+.layout-technical .product-card {
+  background: var(--store-surface-card);
+  border: 1px solid var(--store-border);
+  position: relative;
+}
+
+.layout-technical .card-spec-strip {
+  background: var(--store-surface-raised);
+  padding: 6px 12px;
+  display: flex;
+  justify-content: space-between;
+  font-size: 11px;
+  font-family: 'Space Grotesk', monospace;
+  border-top: 1px solid var(--store-border);
+  color: var(--store-text-muted);
+}
+
+/* Technical Product Detail: Blueprint & Tensile Meter */
+.layout-technical .blueprint-schematic-card {
+  background: var(--store-surface-card);
+  border: 1px solid var(--store-border-strong);
+  border-radius: var(--store-radius);
+  padding: 22px;
+  margin-top: 16px;
+  font-family: 'Space Grotesk', monospace;
+}
+
+.layout-technical .tensile-meter-bar {
+  width: 100%;
+  height: 10px;
+  background: var(--store-surface-raised);
+  border-radius: 999px;
+  overflow: hidden;
+  margin: 8px 0 14px;
+  border: 1px solid var(--store-border);
+}
+
+.layout-technical .tensile-fill {
+  height: 100%;
+  background: linear-gradient(90deg, var(--store-primary), var(--store-accent));
+  width: 88%;
+}
+
+/* --------------------------------------------------------------------------
+   STYLE 4: ORGANIC WABI-SABI CRAFT STORY (.layout-artisanal)
+   -------------------------------------------------------------------------- */
+.layout-artisanal .artisanal-wisdom-strip {
+  background: var(--store-surface-raised);
+  border: 1px dashed var(--store-border-strong);
+  padding: 20px 28px;
+  border-radius: var(--store-radius);
+  margin-bottom: 30px;
+  text-align: center;
+  font-style: italic;
+  color: var(--store-text-muted);
+}
+
+.layout-artisanal .products-grid {
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  gap: 32px;
+}
+
+.layout-artisanal .product-card {
+  border-style: dashed;
+  border-color: var(--store-border);
+  padding: 6px;
+  background: var(--store-surface);
+}
+
+.layout-artisanal .card-craft-story {
+  padding: 8px 14px 4px;
+  font-size: 12px;
+  color: var(--store-text-muted);
+  font-style: italic;
+}
+
+/* Artisanal Product Detail: Provenance Story */
+.layout-artisanal .maker-journey-box {
+  background: var(--store-surface-raised);
+  border: 1px dashed var(--store-border-strong);
+  border-radius: var(--store-radius);
+  padding: 24px;
+  margin-top: 20px;
+}
+
+.layout-artisanal .maker-journey-box h4 {
+  font-family: var(--font-heading);
+  font-size: 16px;
+  margin-bottom: 8px;
+  color: var(--store-primary);
+}
+

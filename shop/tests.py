@@ -38,31 +38,49 @@ class ShopEcommerceTests(TestCase):
             active=True
         )
 
-    def test_ten_sample_themes_configured(self):
-        """Verify all 10 front-end sample archetypes are defined and available."""
-        self.assertEqual(len(THEME_SAMPLES), 10)
+    def test_sixteen_sample_themes_configured(self):
+        """Verify all 16 front-end sample archetypes are defined and available."""
+        self.assertEqual(len(THEME_SAMPLES), 16)
         expected_keys = [
             'couture', 'sashiko', 'quilter', 'leathercraft', 'botanical',
-            'nordic', 'victorian', 'neontuft', 'precision', 'boho'
+            'nordic', 'victorian', 'neontuft', 'precision', 'boho',
+            'baroque', 'retro70s', 'tactical', 'kawaii', 'gothic', 'artnouveau'
         ]
         for key in expected_keys:
             self.assertIn(key, THEME_MAP)
+            self.assertIn(THEME_MAP[key]['layout_style'], ['boutique', 'studio', 'technical', 'artisanal'])
 
-    def test_home_and_theme_switching(self):
-        """Verify home page loads and responds to theme query parameter."""
-        response = self.client.get(reverse('home'))
+    def test_clean_seo_demo_routes(self):
+        """Verify clean canonical SEO routes for demo storefronts."""
+        # 1. Clean demo home route: /demo/<theme_id>/
+        resp_baroque = self.client.get(reverse('demo_home', kwargs={'theme_id': 'baroque'}))
+        self.assertEqual(resp_baroque.status_code, 200)
+        self.assertEqual(resp_baroque.context['active_theme'], 'baroque')
+        self.assertEqual(resp_baroque.context['layout_style'], 'boutique')
+
+        # 2. Clean demo catalog route: /demo/<theme_id>/catalog/
+        resp_tactical_cat = self.client.get(reverse('demo_catalog', kwargs={'theme_id': 'tactical'}))
+        self.assertEqual(resp_tactical_cat.status_code, 200)
+        self.assertEqual(resp_tactical_cat.context['active_theme'], 'tactical')
+        self.assertEqual(resp_tactical_cat.context['layout_style'], 'technical')
+
+        # 3. Clean demo catalog category route: /demo/<theme_id>/catalog/<category_slug>/
+        resp_demo_cat = self.client.get(reverse('demo_catalog_category', kwargs={'theme_id': 'sashiko', 'category_slug': 'fine-silk'}))
+        self.assertEqual(resp_demo_cat.status_code, 200)
+        self.assertEqual(resp_demo_cat.context['active_theme'], 'sashiko')
+        self.assertEqual(resp_demo_cat.context['layout_style'], 'artisanal')
+
+        # 4. Clean demo product detail route: /demo/<theme_id>/product/<slug>/
+        resp_demo_prod = self.client.get(reverse('demo_product_detail', kwargs={'theme_id': 'kawaii', 'slug': self.product.slug}))
+        self.assertEqual(resp_demo_prod.status_code, 200)
+        self.assertEqual(resp_demo_prod.context['active_theme'], 'kawaii')
+        self.assertEqual(resp_demo_prod.context['layout_style'], 'studio')
+
+    def test_clean_category_route(self):
+        """Verify canonical category SEO route: /catalog/<category_slug>/"""
+        response = self.client.get(reverse('catalog_category', kwargs={'category_slug': self.category.slug}))
         self.assertEqual(response.status_code, 200)
-        self.assertContains(response, "Front-End Samples")
-
-        # Switch to Sashiko theme
-        resp_sashiko = self.client.get(reverse('home') + '?theme=sashiko')
-        self.assertEqual(resp_sashiko.status_code, 200)
-        self.assertEqual(resp_sashiko.context['active_theme'], 'sashiko')
-
-        # Switch to Neon Tuft theme
-        resp_neon = self.client.get(reverse('home') + '?theme=neontuft')
-        self.assertEqual(resp_neon.status_code, 200)
-        self.assertEqual(resp_neon.context['active_theme'], 'neontuft')
+        self.assertContains(response, "French Mulberry Silk Floss")
 
     def test_catalog_and_filters(self):
         """Verify product catalog search and category filtering."""

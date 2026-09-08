@@ -1,6 +1,6 @@
 {% load static %}
 <!DOCTYPE html>
-<html lang="en" data-theme="{{ active_theme }}">
+<html lang="en" data-theme="{{ active_theme }}" class="layout-{{ layout_style }}">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -13,27 +13,27 @@
 <body>
 
   <!-- ==========================================================================
-       INTERACTIVE LIVE DEMO THEME SWITCHER BAR (10 FRONT-END SAMPLES)
+       INTERACTIVE LIVE DEMO THEME SWITCHER BAR (16 FRONT-END SAMPLES)
        ========================================================================== -->
   <div class="demo-theme-bar">
     <div class="demo-theme-container">
       <div class="demo-theme-title">
         <span>🎨 Front-End Samples:</span>
-        <span class="demo-theme-badge">10 Archetypes Available</span>
+        <span class="demo-theme-badge">16 Archetypes Available</span>
       </div>
 
       <div class="demo-theme-chips">
         {% for theme in theme_samples %}
-          <button 
-            type="button" 
+          <a 
+            href="{% url 'demo_home' theme_id=theme.id %}" 
             class="theme-chip {% if active_theme == theme.id %}active{% endif %}"
             data-theme="{{ theme.id }}"
             data-name="{{ theme.name }}"
-            title="{{ theme.subtitle }} - {{ theme.niche }}"
+            title="{{ theme.subtitle }} - {{ theme.niche }} [Layout: {{ theme.layout_style|title }}]"
           >
             <span class="theme-chip-dot" style="background: {{ theme.primary_color }};"></span>
             <span>#{{ theme.number }} {{ theme.name }}</span>
-          </button>
+          </a>
         {% endfor %}
       </div>
 
@@ -55,7 +55,7 @@
   <!-- Main Navigation -->
   <header class="navbar">
     <div class="container navbar-inner">
-      <a href="{% url 'home' %}" class="brand-logo">
+      <a href="{% if is_demo_mode %}{% url 'demo_home' theme_id=active_theme %}{% else %}{% url 'home' %}{% endif %}" class="brand-logo">
         <div class="brand-symbol">🪡</div>
         <div class="brand-info">
           <h2>{{ store_config.store_name }}</h2>
@@ -65,11 +65,11 @@
 
       <nav>
         <ul class="nav-links">
-          <li><a href="{% url 'home' %}" class="nav-link">Home</a></li>
-          <li><a href="{% url 'catalog' %}" class="nav-link">Full Catalog</a></li>
-          <li><a href="{% url 'catalog' %}?category=couture-silk" class="nav-link">Silks</a></li>
-          <li><a href="{% url 'catalog' %}?category=sashiko-mending" class="nav-link">Sashiko</a></li>
-          <li><a href="{% url 'catalog' %}?category=quilting-notions" class="nav-link">Needles</a></li>
+          <li><a href="{% if is_demo_mode %}{% url 'demo_home' theme_id=active_theme %}{% else %}{% url 'home' %}{% endif %}" class="nav-link">Home</a></li>
+          <li><a href="{% if is_demo_mode %}{% url 'demo_catalog' theme_id=active_theme %}{% else %}{% url 'catalog' %}{% endif %}" class="nav-link">Full Catalog</a></li>
+          <li><a href="{% if is_demo_mode %}{% url 'demo_catalog_category' theme_id=active_theme category_slug='couture-silk' %}{% else %}{% url 'catalog_category' category_slug='couture-silk' %}{% endif %}" class="nav-link">Silks</a></li>
+          <li><a href="{% if is_demo_mode %}{% url 'demo_catalog_category' theme_id=active_theme category_slug='sashiko-mending' %}{% else %}{% url 'catalog_category' category_slug='sashiko-mending' %}{% endif %}" class="nav-link">Sashiko</a></li>
+          <li><a href="{% if is_demo_mode %}{% url 'demo_catalog_category' theme_id=active_theme category_slug='quilting-notions' %}{% else %}{% url 'catalog_category' category_slug='quilting-notions' %}{% endif %}" class="nav-link">Needles</a></li>
         </ul>
       </nav>
 

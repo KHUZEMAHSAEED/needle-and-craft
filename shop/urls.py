@@ -2,8 +2,16 @@ from django.urls import path
 from . import views
 
 urlpatterns = [
+    # Clean SEO Demo Storefront Routes
+    path('demo/<slug:theme_id>/', views.home_view, name='demo_home'),
+    path('demo/<slug:theme_id>/catalog/', views.catalog_view, name='demo_catalog'),
+    path('demo/<slug:theme_id>/catalog/<slug:category_slug>/', views.catalog_view, name='demo_catalog_category'),
+    path('demo/<slug:theme_id>/product/<slug:slug>/', views.product_detail_view, name='demo_product_detail'),
+
+    # Standard Storefront Routes (SEO Clean)
     path('', views.home_view, name='home'),
     path('catalog/', views.catalog_view, name='catalog'),
+    path('catalog/<slug:category_slug>/', views.catalog_view, name='catalog_category'),
     path('product/<slug:slug>/', views.product_detail_view, name='product_detail'),
     
     # Cart AJAX API

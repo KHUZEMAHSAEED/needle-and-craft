@@ -59,15 +59,45 @@
         <p class="hero-desc">
           GEBEDUR titanium DBx1 machine needles rated for 6,000 stitches per minute, paired with bonded nylon 69 and high-tensile Kevlar cord.
         </p>
-      {% else %}
+      {% elif active_theme == 'boho' %}
         <h1 class="hero-title">Bohemian Tapestry Weft & Macramé Cord</h1>
         <p class="hero-desc">
           Buttery unbleached single-twist Turkish cotton rope, sunbaked natural dye palettes, and carved maple shuttles for fiber art wall hangings.
         </p>
+      {% elif active_theme == 'baroque' %}
+        <h1 class="hero-title">Sacred Cathedral Goldwork & Ecclesiastical Bullion</h1>
+        <p class="hero-desc">
+          Milled with real silver-gilt passing threads and heavy gold bullion wire for liturgical vestments, royal heraldry, and museum restorations.
+        </p>
+      {% elif active_theme == 'retro70s' %}
+        <h1 class="hero-title">Retro 70s Earth Weaver & Chunky Macramé</h1>
+        <p class="hero-desc">
+          Nostalgic rough golden jute, organic hemp thread, and hand-turned wooden beads for vintage plant hangers, wall hangings, and fiber art owls.
+        </p>
+      {% elif active_theme == 'tactical' %}
+        <h1 class="hero-title">Tactical Mil-Spec Cordage & Ballistic Awls</h1>
+        <p class="hero-desc">
+          Tested to extreme shear and abrasion limits: Kevlar 92 bonded thread, heavy webbing needles, and diamond field awls for outdoor gear.
+        </p>
+      {% elif active_theme == 'kawaii' %}
+        <h1 class="hero-title">Kawaii Pastel Amigurumi & Soft Milk Cotton</h1>
+        <p class="hero-desc">
+          Delightfully soft milk cotton fluff, pastel ergonomic crochet hooks, and safety eyes for adorable Japanese plush crafting.
+        </p>
+      {% elif active_theme == 'gothic' %}
+        <h1 class="hero-title">Dark Romantic Millinery & Velvet Corsetry</h1>
+        <p class="hero-desc">
+          Heavy-gauge steel boning needles, ultra-waxed corsetry lacing cord, and midnight velvet floss for dramatic dark romance couture.
+        </p>
+      {% else %}
+        <h1 class="hero-title">Art Nouveau Lace & Filigree Organic Silks</h1>
+        <p class="hero-desc">
+          Inspired by Alphonse Mucha. Flowing peacock green silks, silver filigree tatting shuttles, and delicate lace picot needles.
+        </p>
       {% endif %}
 
       <div class="hero-cta-group">
-        <a href="{% url 'catalog' %}" class="btn-primary">
+        <a href="{% if is_demo_mode %}{% url 'demo_catalog' theme_id=active_theme %}{% else %}{% url 'catalog' %}{% endif %}" class="btn-primary">
           <span>Explore {{ current_theme.name }} Collection</span>
           <span>→</span>
         </a>
@@ -97,6 +127,18 @@
           <img src="https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?auto=format&fit=crop&w=800&q=80" alt="Modern Punch Needle Art">
         {% elif active_theme == 'precision' %}
           <img src="https://images.unsplash.com/photo-1581092160607-ee22621dd758?auto=format&fit=crop&w=800&q=80" alt="Precision Industrial Machinery">
+        {% elif active_theme == 'baroque' %}
+          <img src="https://images.unsplash.com/photo-1598440947619-2c35fc9aa908?auto=format&fit=crop&w=800&q=80" alt="Baroque Gilded Goldwork">
+        {% elif active_theme == 'retro70s' %}
+          <img src="https://images.unsplash.com/photo-1590736969955-71cc94801759?auto=format&fit=crop&w=800&q=80" alt="Retro 70s Macramé Cord">
+        {% elif active_theme == 'tactical' %}
+          <img src="https://images.unsplash.com/photo-1509281373149-e957c6296406?auto=format&fit=crop&w=800&q=80" alt="Tactical Mil-Spec Gear">
+        {% elif active_theme == 'kawaii' %}
+          <img src="https://images.unsplash.com/photo-1584992236310-6edddc08acff?auto=format&fit=crop&w=800&q=80" alt="Pastel Soft Yarn">
+        {% elif active_theme == 'gothic' %}
+          <img src="https://images.unsplash.com/photo-1617038260897-41a1f14a8ca0?auto=format&fit=crop&w=800&q=80" alt="Dark Velvet Corsetry">
+        {% elif active_theme == 'artnouveau' %}
+          <img src="https://images.unsplash.com/photo-1544441893-675973e31985?auto=format&fit=crop&w=800&q=80" alt="Art Nouveau Filigree Silk">
         {% else %}
           <img src="https://images.unsplash.com/photo-1590736969955-71cc94801759?auto=format&fit=crop&w=800&q=80" alt="Boho Macramé Cord">
         {% endif %}
@@ -114,12 +156,12 @@
 </section>
 
 <!-- ==========================================================================
-     CATEGORY QUICK BROWSE
+     CATEGORY QUICK BROWSE WITH CLEAN CANONICAL URLS
      ========================================================================== -->
 <div class="container category-row">
   <div class="category-scroll">
     {% for cat in categories|slice:":5" %}
-      <a href="{% url 'catalog' %}?category={{ cat.slug }}" class="category-chip-card">
+      <a href="{% if is_demo_mode %}{% url 'demo_catalog_category' theme_id=active_theme category_slug=cat.slug %}{% else %}{% url 'catalog_category' category_slug=cat.slug %}{% endif %}" class="category-chip-card">
         <div class="category-chip-icon">{{ cat.icon }}</div>
         <div class="category-chip-info">
           <h4>{{ cat.name }}</h4>
@@ -139,7 +181,7 @@
       <h2 class="section-title">Curated Merchant Selection</h2>
       <p class="section-subtitle">Exemplary threads and precision needles favored by master artisans worldwide</p>
     </div>
-    <a href="{% url 'catalog' %}" style="font-weight: 700; color: var(--store-primary); font-size: 14px;">
+    <a href="{% if is_demo_mode %}{% url 'demo_catalog' theme_id=active_theme %}{% else %}{% url 'catalog' %}{% endif %}" style="font-weight: 700; color: var(--store-primary); font-size: 14px;">
       Browse All Products →
     </a>
   </div>
@@ -148,7 +190,7 @@
     {% for product in featured_products %}
       <article class="product-card">
         <div class="product-card-media">
-          <a href="{% url 'product_detail' slug=product.slug %}">
+          <a href="{% if is_demo_mode %}{% url 'demo_product_detail' theme_id=active_theme slug=product.slug %}{% else %}{% url 'product_detail' slug=product.slug %}{% endif %}">
             <img src="{{ product.image_url }}" alt="{{ product.title }}" class="product-card-img" loading="lazy">
           </a>
           {% if product.badge %}
@@ -158,7 +200,7 @@
 
         <div class="product-card-body">
           <span class="product-card-category">{{ product.category.name }}</span>
-          <a href="{% url 'product_detail' slug=product.slug %}">
+          <a href="{% if is_demo_mode %}{% url 'demo_product_detail' theme_id=active_theme slug=product.slug %}{% else %}{% url 'product_detail' slug=product.slug %}{% endif %}">
             <h3 class="product-card-title">{{ product.title }}</h3>
           </a>
           <p class="product-card-desc">{{ product.short_description }}</p>
